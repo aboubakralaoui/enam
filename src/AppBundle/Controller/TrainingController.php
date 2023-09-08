@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Training;
+use AppBundle\Form\TrainingType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -51,6 +52,7 @@ class TrainingController extends Controller
                 array_push($levels,$value->getLevel());
             }
         }
+        /** @var TrainingType $form */
         $form = $this->createForm('AppBundle\Form\TrainingType', $training, array(
             'years' => $years,
             'levels' => $levels,
@@ -66,11 +68,12 @@ class TrainingController extends Controller
             );
             return $this->redirectToRoute('training_new', array('id' => $training->getId()));
         }
-
+        dump(array_diff(array_values(TrainingType::MANDATORY_LEVELS), $levels));
         return $this->render('training/new.html.twig', array(
             'training' => $training,
             'form' => $form->createView(),
             'trainings' => $trainings,
+            'remainingLevels' => array_diff(array_values(TrainingType::MANDATORY_LEVELS), $levels),
         ));
     }
 

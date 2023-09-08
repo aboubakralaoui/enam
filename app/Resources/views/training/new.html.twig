@@ -20,9 +20,11 @@ Le formulaire n’est pas valide
                                        </div>
 
 {% endif %}
-    <div class="alert alert-danger" role="alert">
-        <i>Veuillez renseigner les trois dernières années de votre cursus </i>
-    </div>
+    {% if remainingLevels|length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <i>Veuillez renseigner au moins les niveaux d'études suivants : {{ remainingLevels|join(', ')}} </i>
+        </div>
+    {% endif %}
     <div class="row">
     {{ form_start(form, { 'attr': {'style':'padding-top:30px;'} }) }}
         <div class="col-md-6 col-sm-6">
@@ -130,6 +132,8 @@ Le formulaire n’est pas valide
 </div>
     <div id="bottom-wizard">
         <a type="button" href="{{ path('profile')}}"  id="backward" name="backward" class="backward"><span id="span-backward">Précédent</span></a>
-        <a type="submit" href="{{ path('application')}}" id="forward" name="forward" class="forward suivant"><span id="span-forward">suivant</span> </a>
+        {% if remainingLevels|length == 0 %}
+            <a type="submit" href="{{ path('application')}}" id="forward" name="forward" class="forward suivant"><span id="span-forward">suivant</span> </a>
+        {% endif %}
     </div>
 {% endblock %}

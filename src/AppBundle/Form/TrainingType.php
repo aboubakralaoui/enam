@@ -8,6 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrainingType extends AbstractType
 {
+    const MANDATORY_LEVELS = array(
+        "baccalauréat" => "baccalauréat",
+        "1ème année post bac" => "1ème année post bac" ,
+        "2ème année post bac" => "2ème année post bac" ,
+        "3ème année post bac" => "3ème année post bac",
+    );
+    const OPTIONAL_LEVELS = array(
+        "1ère année master" => "1ère année master",
+        "2ème année master" => "2ème année master",
+    );
     private $years;
     private $levels;
     private $lastTraining;
@@ -93,11 +103,7 @@ class TrainingType extends AbstractType
     public function getLevels(){
         $plusYear = $this->lastTraining == null ? 0 :(date("Y") - 1) - $this->lastTraining->getYearGraduation();
         $lastLevel = $this->lastTraining == null ? "" : $this->lastTraining->getLevel();
-        $levelsArray = array(
-            "1ème année post bac" => "1ème année post bac" ,
-            "2ème année post bac" => "2ème année post bac" ,
-            "3ème année post bac" => "3ème année post bac"
-        );
+        $levelsArray = array_merge(self::MANDATORY_LEVELS,self::OPTIONAL_LEVELS);
         $this->selectedYear = date("Y") - 1;
         if($plusYear > 1) {
             $this->selectedYear = $this->lastTraining->getYearGraduation() == date("Y") - 1 ? date("Y") - 1 : $this->lastTraining->getYearGraduation() + 1;
