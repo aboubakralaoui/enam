@@ -1,0 +1,51 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> Liste des types de document</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{ path('documenttype_new') }}" class="btn btn-circle red btn-xs">Ajouter un type de document</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="datatable">
+                        <thead>
+                        <tr>
+                            <th> Id </th>
+                            <th> Libellé </th>
+                            <th> Upload multiple </th>
+                            <th> Ordre </th>
+                            <th> Actions </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for documentType in documentTypes %}
+                        <tr class="odd gradeX">
+                            <td><a href="{{ path('documenttype_edit', { 'id': documentType.id }) }}">{{ documentType.id }}</a></td>
+                            <td> {{ documentType.name }} </td>
+                            <td> <span class="label label-sm label-success"> {{ documentType.multiple ? "Oui" : "Non"}} </span> </td>
+                            <td> {{ documentType.order == 0 ? 0 : documentType.order }} </td>
+                            <td><a class="btn green btn-xs" href="{{ path('documenttype_edit', { 'id': documentType.id }) }}">Modifier</a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $('#datatable').DataTable({});
+</script>
+{% endblock %}

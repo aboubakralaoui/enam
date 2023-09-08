@@ -1,0 +1,36 @@
+{% extends 'admin.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> L'ajout d'une fonctionnalité</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{ path('feature_index') }}" class="btn btn-circle red btn-xs">Liste des fonctionnalités</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" class="btn blue-hoki" value="Enregistrer" />
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        //$('.wysihtml5').wysihtml5();
+    </script>
+{% endblock %}
+
+

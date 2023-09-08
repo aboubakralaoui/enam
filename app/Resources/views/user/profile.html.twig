@@ -1,0 +1,104 @@
+{% extends 'profil.html.twig' %}
+
+{% block body %}
+
+    <div id="middle-wizard" style="padding-top: 25px">
+        {% block flash_messages %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        {{ message | raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+{% if not edit_form.vars.valid %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+Le formulaire n’est pas valide
+                                       </div>
+
+{% endif %}
+        <h4>- Informations personnelles :</h4>
+        <hr style="margin-top:15px;">
+        <div class="row">
+            {{ form_start(edit_form, {'action': path('profile'), 'method': 'POST','attr': {'id': 'form_user'}}) }}
+            <div class="col-md-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Nom <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.firstName, { 'attr': {'class': 'required form-control error firstname'} }) }}
+                        {{ form_errors(edit_form.firstName) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Prénom <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.lastName, { 'attr': {'class': 'required form-control error lastName'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Email <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.email, { 'attr': {'class': 'required form-control error email'} }) }}
+                        {{ form_errors(edit_form.email) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Numéro de la Carte d’Identité Nationale (CIN) ou du passeport <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.cin, { 'attr': {'class': 'required form-control error cin'} }) }}
+                        {{ form_errors(edit_form.cin) }}
+                    </div>
+                </ul>
+            </div><!-- end col-md-6 -->
+            <div class="col-md-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Numéro de téléphone <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.phoneNumber, { 'attr': {'class': 'required form-control error phoneNumber'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Adresse <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.address, { 'attr': {'class': 'required form-control error address'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Date de naissance <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.birthDate, { 'attr': {'class': 'required form-control error birthDate'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Lieu de naissance <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.placeBirth, { 'attr': {'class': 'required form-control error placeBirth'} }) }}
+                    </div>
+                    {#<div class="form-group">
+                        <input type="submit" class="btn btn-primary pull-right" value="Enregistrer"/>
+                    </div>#}
+                </ul>
+            </div><!-- end col-md-6 -->
+        </div>
+
+       
+      
+     
+    
+   
+  
+ 
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+    <div id="bottom-wizard">
+        <button type="button" onchange="window.location.href =''" id="backward" name="backward" class="backward" disabled="disabled"><span id="span-backward">Précédent</span></button>
+        <button type="submit" onchange="window.location.href =''" id="forward" name="forward" class="forward"><span id="span-forward">Enregistrer</span> </button>
+    </div>
+    {{ form_end(edit_form, {'render_rest': true}) }}
+{% endblock %}
+{% block javascript %}
+<script>
+    $(".formToDelete").remove();
+    </script>
+{% endblock %}

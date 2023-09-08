@@ -1,0 +1,38 @@
+{% extends 'admin.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> L'ajout d'un type de document</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{ path('documenttype_index') }}" class="btn btn-circle red btn-xs">Liste des types de document</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" class="btn blue-hoki" value="Enregistrer" />
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<style>
+    .checkbox{
+        padding-left: 20px;
+        padding-top: 8px;
+    }
+</style>
+{% endblock %}

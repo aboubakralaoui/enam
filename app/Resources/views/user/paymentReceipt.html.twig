@@ -1,0 +1,93 @@
+{% extends 'profil.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/css2/document/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/css2/document/amalxo.css') }}">
+{% endblock %}
+{% block body %}
+    <form action="{{ path('payment_receipt', {'applicationId': application.id}) }}" method="post"
+          enctype="multipart/form-data">
+        <div id="middle-wizard" id="end" style="padding-top: 25px;text-align: center;">
+            <h1>Reçu de paiement</h1>
+            <h4 class="false_title_docs">Les extensions acceptés pour les documents (jpg , jpeg , png, pdf)</h4>
+            {% if application.course.paymentReceiptDeadline %}
+            <h4 class="false_title_docs">(Date limite de paiement des frais de candidature est : {{ application.course.paymentReceiptDeadline|date('d/m/Y') }})</h4>
+            {% endif %}
+            {% block flash_messages %}
+                {% if app.session.flashbag.peekAll|length > 0 %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        {% for type, messages in app.session.flashbag.all() %}
+                            {% for message in messages %}
+                                <li class="{{ type }}"> {{ message | raw }} </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+
+            <div class="alert alert-danger" role="alert"> Mentionnez obligatoirement le numéro de candidature <strong> {{ application.id }}</strong> sur l'ordre de virement où de versement!</div>
+            <div><p style="font-size: 17px;">Vous pouvez toujours mettre à jours vos documents  et uploader des nouveaux documents <a href="{{ path("save_files", {'applicationId': application.id}) }}">en cliquant ici</a></p></div>
+            <div id="form">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h3 class="wizard-header file_title" style="{{ (application.status == 4) or ("payment_receipt" in filesUploaded|keys and filesUploaded["payment_receipt"]['status'] == 4 ) ? 'margin-top:0px;font-size: 14px;' : "font-size: 14px;" }}">
+                            Reçu de paiement :
+                        </h3>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-controlGroup-inputWrapper" style="{{ (application.status == 4) or ("payment_receipt" in filesUploaded|keys and filesUploaded["payment_receipt"]['status'] == 4 ) ? 'display : none;' : "" }}">
+                            <label for="payment_receipt" class="form-input form-input--file">
+                                <span class="form-input--file-text form-input--file-textpayment_receipt">Sélectionner le fichier..</span>
+                                <span class="form-input--file-button">Parcourir</span>
+                                <input class="form-input-file form-input-filepayment_receipt" type="file"
+                                       id="payment_receipt" name="payment_receipt">
+                            </label>
+                        </div>
+                        <div class="file">
+                            {% if "payment_receipt" in filesUploaded|keys %}
+                                {% set path = "uploads" ~ "/" ~ application.user.id ~ "/" ~ application.id ~ "/" ~ filesUploaded["payment_receipt"]['fileName'] %}
+                                <a class="bottom_link show_file" href="{{ asset(path) }}" target="_blank" style="{{ (application.status == 4) or ("payment_receipt" in filesUploaded|keys and filesUploaded["payment_receipt"]['status'] == 4 ) ? 'line-height: 32px;' : "" }}">
+                                    <i>- Visualiser le fichier existant</i>
+                                    {% if filesUploaded["payment_receipt"]['status'] == 4 %}
+                                        (Validé)
+                                    {% elseif filesUploaded["payment_receipt"]['status'] == -1 %}
+                                        (Rejeté)
+                                    {% else %}
+                                        (En cours)
+                                    {% endif %}
+                                </a>
+                            {% endif %}
+{#                            {% if "payment_receipt" in filesErrors|keys %}
+                                {% for fileError in filesErrors["payment_receipt"] %}
+                                    {{ fileError }}
+                                {% endfor %}
+                            {% endif %}#}
+                        </div>
+                    </div>
+                </div>
+                {% if application.status != 4 %}
+                    <hr style="margin: 11px 0; border: 0; height: 1px; background-color: #f5eeee;">
+                    <button type="submit" class="btn btn-primary add_training_btn">Enregistrer</button>
+                {% endif %}
+            </div>
+        </div>
+        <div id="bottom-wizard">
+            <button type="button" onclick="window.location.href ='{{ path("application")}}'" id="backward" name="backward" class="backward" ><span id="span-backward" onclick="window.location.href ='{{ path("application")}}'">Précédent</span></button>
+            <button type="submit" onclick="window.location.href =''" id="forward" name="forward" class="forward suivant" disabled="disabled"><span id="span-forward">suivant</span> </button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            var fileInputpayment_receipt = document.querySelector('.form-input-filepayment_receipt');
+            var fileInputTextpayment_receipt = document.querySelector('.form-input--file-textpayment_receipt');
+            fileInputTextContentpayment_receipt = fileInputTextpayment_receipt.textContent;
+            fileInputpayment_receipt.addEventListener('change', function (e) {
+                var value = e.target.value.length > 0 ? e.target.value : fileInputTextContentpayment_receipt;
+                fileInputTextpayment_receipt.textContent = value.replace('C:\\fakepath\\', '');
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+course_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Course:index" }
+    methods:  GET
+
+course_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Course:show" }
+    methods:  GET
+
+course_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Course:new" }
+    methods:  [GET, POST]
+
+setFieltToUser:
+    path:     /setFieltToUser
+    defaults: { _controller: "AppBundle:Course:setFieltToUser" }
+    methods:  POST
+
+course_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Course:edit" }
+    methods:  [GET, POST]
+
+course_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Course:delete" }
+    methods:  DELETE
+
+getCoursesByDiplomaId:
+    path:     /getCoursesByDiplomaId/{diplomaId}
+    defaults: { _controller: "AppBundle:Course:getCoursesByDiplomaId" }
+    methods:  GET
+    options:
+        expose: true
+
+getCoursesByDiplomaTypeAndSchoolAndTrainingType:
+    path:     /getCoursesByDiplomaId/{diplomaTypeId}/{schoolId}/{schoolFieldId}/{trainingTypeId}
+    defaults: { _controller: "AppBundle:Course:getCoursesByDiplomaTypeAndSchoolAndTrainingType" }
+    methods:  GET
+    options:
+        expose: true
+
+getCourseById:
+    path:     /getCourseById/{id}
+    defaults: { _controller: "AppBundle:Course:getCourseById" }
+    methods:  GET
+    options:
+        expose: true
+
+updateDiplomeApplication:
+    path:     /updateDiplomeApplication
+    defaults: { _controller: "AppBundle:Course:updateDiplomeApplication" }
+    methods:  POST

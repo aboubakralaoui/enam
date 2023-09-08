@@ -1,0 +1,62 @@
+{% for key,file in filesUploaded %}
+
+    <div class="portlet light bordered" style="padding: 0px 14px 8px;">
+        <div class="portlet-title" style="margin-bottom: -4px;min-height: 40px !important;">
+            <div class="caption">
+                <i class="icon-settings font-green-sharp"></i>
+                <span class="caption-subject font-green-sharp bold uppercase">{{ key }}</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+{#            {% for f in file %}
+                {% set path = "uploads" ~ "/" ~ application.user.id ~ "/" ~ application.id ~ "/" ~ f.fileName %}
+                <a href="{{ asset(path) }}" target="_blank" class="icon-btn">
+                    <i class="fa fa-file"></i>
+                    <div>{{ f.extension }} </div>
+                </a>
+            {% endfor %}#}
+            <div class="table-scrollable">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                     {% for f in file %}
+                         {% set path = "uploads" ~ "/" ~ application.user.id ~ "/" ~ application.id ~ "/" ~ f.fileName %}
+                        <tr>
+                            <td>
+                                <a style="font-size: 13px;" href="{{ asset(path) }}" target="_blank">
+                                    Voir le fichier
+                                </a>
+                            </td>
+                            <td> {{ f.extension }}  </td>
+                            <td> <span class="label label-sm label-warning">
+                                    {% if f.status == 4 %}
+                                        Validé
+                                    {% elseif f.status == -1 %}
+                                        Rejeté
+                                    {% else %}
+                                        En cours
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td class="pull-right">
+                                {% if f.status == 4  or f.status == -1 %}
+                                    <a href="{{ path("document_change_status",{"documentId" : f.id , "statusId" : 0}) }}" class="btn btn green btn-xs">
+                                        Restaurer
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path("document_change_status",{"documentId" : f.id , "statusId" : 4}) }}" class="btn btn green btn-xs">
+                                        Valider
+                                    </a>
+                                    <a href="{{ path("document_change_status",{"documentId" : f.id , "statusId" : -1}) }}" class="btn btn red btn-xs">
+                                        Rejeter
+                                    </a>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endfor %}

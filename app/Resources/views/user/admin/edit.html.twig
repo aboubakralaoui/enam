@@ -1,0 +1,52 @@
+{% extends 'admin.html.twig' %}
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> Modification d'un utilisateur</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{ path('user_index_admin') }}" class="btn btn-circle red btn-xs">Liste des utilisateurs</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <input type="submit" class="btn blue-hoki" value="Modifier" />
+                    <a href="#deleteUser" role="button" class="btn btn-danger pull-right" data-toggle="modal"> Supprimer </a>
+                    {{ form_end(edit_form) }}
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div id="deleteUser" class="modal fade bs-modal-sm" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Confirmation de la suppression</h4>
+                </div>
+                <div class="modal-body">
+                    <p> Voulez-vous vraiment supprimer cet enregistrement ? </p>
+                </div>
+                <div class="modal-footer">
+                    {{ form_start(delete_form,{ 'attr': {'style': '    text-align: right;'} }) }}
+                    <button class="btn default" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                    {{ form_end(delete_form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+

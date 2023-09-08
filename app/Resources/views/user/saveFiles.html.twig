@@ -1,0 +1,122 @@
+{% extends 'profil.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/css2/document/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/css2/document/amalxo.css') }}">
+{% endblock %}
+{% block body %}
+    <form action="{{ path('save_files', {'applicationId': application.id}) }}" method="post" enctype="multipart/form-data">
+        <div id="middle-wizard" id="end" style="padding-top: 25px;text-align: center;">
+            <h1>Mes documents</h1>
+            <h4 class="false_title_docs">Les extensions acceptés pour les documents (jpg , jpeg , png, pdf)</h4>
+            {% if application.course.applicationDeadline %}
+            <h4 class="false_title_docs">(La date limite de dépôt des documents est : {{ application.course.applicationDeadline|date('d/m/Y') }})</h4>
+            {% endif %}
+            {% block flash_messages %}
+                {% if app.session.flashbag.peekAll|length > 0 %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for message in messages %}
+                            <li class="{{ type }}"> {{ message | raw }} </li>
+                        {% endfor %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+            <!-- <div class="alert alert-danger" role="alert"> Mentionnez obligatoirement le numéro de candidature <strong> {{ application.id }}</strong> sur l'ordre de virement où de versement!</div>
+            <div><p style="font-size: 17px;">Pour revenir à cette étape ultérierement et charger le reçu de paiement des droit du concours <a href="{{ path("payment_receipt", {'applicationId': application.id}) }}"> cliquez ici</a></p></div> -->
+
+            <div id="form">
+                {% for documentType in application.course.documentTypes %}
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3 class="wizard-header file_title" style="{{ application.status == 4 ? 'margin-top:0px;font-size: 14px;' : "font-size: 14px;" }}">
+                                {{ documentType.name }} :
+                            </h3>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="descriptive_p" style="{{ application.status == 4 ? 'display : none;' : "" }}">{{ documentType.multiple ? "Vous pouvez uploader dans cette section plusieurs documents" : "Vous pouvez uploader dans cette section un seul document"}}</p>
+                            <div class="form-controlGroup-inputWrapper" style="{{ application.status == 4 ? 'display : none;' : "" }}">
+                                <label for="{{ documentType.code }}" class="form-input form-input--file">
+                                    <span class="form-input--file-text form-input--file-text{{ documentType.code }}">Sélectionner le fichier..</span>
+                                    <span class="form-input--file-button">Parcourir</span>
+                                    <input class="form-input-file form-input-file{{ documentType.code }}" type="file"
+                                           id="{{ documentType.code }}" name="{{ documentType.code }}{{ documentType.multiple ? '[]' : "" }}" {{ documentType.multiple ? 'multiple' : "" }}>
+                                </label>
+                            </div>
+                            {% if documentType.code in filesUploaded|keys %}
+                                {% if documentType.multiple %}
+                                    {% for document in filesUploaded[documentType.code] %}
+                                        <div class="file col-md-12">
+                                            {% set path = "uploads" ~ "/" ~ application.user.id ~ "/" ~ application.id ~ "/" ~ document['fileName'] %}
+                                            <a class="bottom_link show_file" href="{{ asset(path) }}" target="_blank" style="{{ application.status == 4 ? 'line-height: 32px;' : "" }}">
+                                                <i>- Visualiser le fichier existant</i>
+                                                {% if document['status'] == 4 %}
+                                                    (Validé)
+                                                {% elseif document['status'] == -1 %}
+                                                    (Rejeté)
+                                                {% else %}
+                                                    (En cours)
+                                                {% endif %}
+                                            </a>
+                                            {% if document['status'] != 4 and application.status != 4 %}
+                                                <a class="bottom_link delete_file" href="{{ path('documentApplicationDelete',{"documentId": document['id'] ,"applicationId": application.id}) }}" style="{{ application.status == 4 ? 'line-height: 32px;' : "" }}"><i>Supprimer</i></a>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for document in filesUploaded[documentType.code] %}
+                                        <div class="file col-md-12">
+                                            {% set path = "uploads" ~ "/" ~ application.user.id ~ "/" ~ application.id ~ "/" ~ document['fileName'] %}
+                                            <a class="bottom_link show_file" href="{{ asset(path) }}"  target="_blank" style="{{ application.status == 4 ? 'line-height: 32px;' : "" }}">
+                                                <i>- Visualiser le fichier existant</i>
+                                                {% if document['status'] == 4 %}
+                                                    (Validé)
+                                                {% elseif document['status'] == -1 %}
+                                                    (Rejeté)
+                                                {% else %}
+                                                    (En cours)
+                                                {% endif %}
+                                            </a>
+                                            {% if document['status'] != 4  and application.status != 4 %}
+                                                <a class="bottom_link delete_file" href="{{ path('documentApplicationDelete',{"documentId": document['id'] ,"applicationId": application.id}) }}" style="{{ application.status == 4 ? 'line-height: 32px;' : "" }}"><i>Supprimer</i></a>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+{#                          {% if documentType.code in filesErrors|keys %}
+                                    {% for fileError in filesErrors[documentType.code] %}
+                                    {{ fileError }}
+                                {% endfor %}
+                            {% endif %}#}
+                        </div>
+                    </div>
+                    <script>
+                      $(document).ready(function () {
+                            var fileInput{{ documentType.code }} = document.querySelector('.form-input-file{{ documentType.code }}');
+                            var fileInputText{{ documentType.code }} = document.querySelector('.form-input--file-text{{ documentType.code }}');
+                            fileInputTextContent{{ documentType.code }} = fileInputText{{ documentType.code }}.textContent;
+
+                            fileInput{{ documentType.code }}.addEventListener('change', function (e) {
+                                var value = e.target.value.length > 0 ? e.target.value : fileInputTextContent{{ documentType.code }};
+
+                                fileInputText{{ documentType.code }}.textContent = value.replace('C:\\fakepath\\', '');
+                            });
+                        });
+                    </script>
+                    <hr style="margin: 11px 0; border: 0; height: 1px; background-color: #f5eeee;">
+                {% endfor %}
+                {% if application.status != 4 %}
+                    <button type="submit" class="btn btn-primary add_training_btn">Enregistrer</button>
+                {% endif %}
+            </div>
+        </div>
+        <div id="bottom-wizard">
+            <button type="button" onclick="window.location.href ='{{ path("application")}}'" id="backward" name="backward" class="backward" ><span id="span-backward" onclick="window.location.href ='{{ path("application")}}'">Précédent</span></button>
+            <button type="button" onclick="window.location.href ='{{ path("online_payment")}}'" id="backward" name="backward" class="backward" ><span id="span-backward" onclick="window.location.href ='{{ path("online_payment")}}'">Suivant</span></button>
+
+        </div>
+    </form>
+{% endblock %}

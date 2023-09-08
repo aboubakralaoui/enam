@@ -1,0 +1,136 @@
+app_diplomatype:
+    resource: "@AppBundle/Resources/config/routing/diplomatype.yml"
+    prefix:   /admin/diplomatype
+
+app_user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
+
+app_nationality:
+    resource: "@AppBundle/Resources/config/routing/nationality.yml"
+    prefix:   /admin/nationality
+
+app_trainingtype:
+        resource: "@AppBundle/Resources/config/routing/trainingtype.yml"
+        prefix:   /admin/trainingtype
+
+app_training:
+    resource: "@AppBundle/Resources/config/routing/training.yml"
+    prefix:   /training
+
+app_course:
+        resource: "@AppBundle/Resources/config/routing/course.yml"
+        prefix:   /admin/course
+
+app_diploma:
+        resource: "@AppBundle/Resources/config/routing/diploma.yml"
+        prefix:   /admin/diploma
+
+app_school:
+    resource: "@AppBundle/Resources/config/routing/school.yml"
+    prefix:   /admin/school
+
+app_schoolfield:
+        resource: "@AppBundle/Resources/config/routing/schoolfield.yml"
+        prefix:   /admin/schoolfield
+
+app_role:
+        resource: "@AppBundle/Resources/config/routing/role.yml"
+        prefix:   /admin/role
+
+app_feature:
+        resource: "@AppBundle/Resources/config/routing/feature.yml"
+        prefix:   /admin/feature
+
+app_application:
+        resource: "@AppBundle/Resources/config/routing/application.yml"
+        prefix:   /admin/application
+
+default:
+    path:     /
+    defaults: { _controller: AppBundle:Security:login}
+    methods:  GET
+
+register:
+    path:     /signUp
+    defaults: { _controller: "AppBundle:User:register" }
+    methods:  [GET, POST]
+
+showMessageRegister:
+    path:     /showMessageRegister
+    defaults: { _controller: "AppBundle:User:showMessageRegister" }
+    methods:  [GET, POST]
+
+showMessageInitPassword:
+    path:     /showMessageInitPassword
+    defaults: { _controller: "AppBundle:User:showMessageInitPassword" }
+    methods:  [GET, POST]
+
+confirme_account:
+    path:     /confirmeAccount/{token}
+    defaults: { _controller: "AppBundle:User:confirmeAccount" }
+    methods:  GET
+
+init_password:
+    path:     /initPasswordAction
+    defaults: { _controller: "AppBundle:User:initPassword" }
+    methods:  POST
+
+profile:
+    path:     /account
+    defaults: { _controller: "AppBundle:User:profile" }
+    methods:  [GET, POST]
+
+application:
+    path:     /application
+    defaults: { _controller: "AppBundle:User:application" }
+    methods:  [GET, POST]
+
+save_files:
+    path:     /documents/{applicationId}
+    defaults: { _controller: "AppBundle:User:saveFiles" }
+    methods:  [GET, POST]
+
+payment_receipt:
+    path:     /paymentReceipt/{applicationId}
+    defaults: { _controller: "AppBundle:User:paymentReceipt" }
+    methods:  [GET, POST]
+
+app_documenttype:
+        resource: "@AppBundle/Resources/config/routing/documenttype.yml"
+        prefix:   /documenttype
+
+app_document:
+        resource: "@AppBundle/Resources/config/routing/document.yml"
+        prefix:   /document
+
+candidate:
+    path:     /candidate/{id}/{openDocumentApp}
+    defaults: { _controller: "AppBundle:Application:candidate", openDocumentApp: null }
+    methods:  [GET, POST]
+
+initialize_password:
+    path:     /initializePassword/{id}
+    defaults: { _controller: "AppBundle:User:initializePassword" }
+    methods:  [GET]
+
+get_documents_application_id:
+    pattern: /getDocumentsByApplicationId/{applicationId}
+    defaults: { _controller :AppBundle:Application:getDocumentsByApplicationId }
+    options:
+        expose: true
+
+logout_user:
+    pattern:  /logoutUser
+    defaults: { _controller: "AppBundle:User:logout" }
+    methods:  GET
+
+user_login_admin:
+    path:     /admin/login
+    defaults: { _controller: "AppBundle:User:loginAdmin" }
+    methods:  [GET, POST]
+
+online_payment:
+    path:     /onlinePayment
+    defaults: { _controller: "AppBundle:User:onlinePayment" }
+    methods:  [GET, POST]

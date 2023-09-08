@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        Bonjour {{ user.firstName }} {{ user.lastName }} ,
+
+        <p>Merci d'avoir choisi l’ENAM. </p>
+
+        <p>Nous venons de procéder au changement de votre mail. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe : </p>
+
+        <a href="{{ url('confirme_account', { 'token': token }) }}">Réinitialiser mon mot de passe</a>
+
+        <p>ATTENTION : si vous n'êtes pas la personne à qui s'adresse cet email ou bien si vous n'avez pas fait
+
+        acte de candidature à l’ENAM, c'est qu'une personne s'est trompée dans la saisie
+
+        de son adresse email. Cet email ne vous concerne donc pas et nous vous prions de nous en excuser.
+
+        Ce mail est généré automatiquement par notre système. Merci de ne pas y répondre.</p>
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+        <p>ENAM</p>
+
+        <p>Direction des études et des affaires académiques</p>
+
+        <p>Km10, Rte Haj Kaddour,BP S-40, Meknès 50001 Maroc </p>
+
+        <p>Tél. : +212 (0)535 300239/40/41</p>
+
+        <p>master@enameknes.net</p>
+    </body>
+</html>

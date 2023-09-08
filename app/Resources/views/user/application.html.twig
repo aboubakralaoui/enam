@@ -1,0 +1,345 @@
+{% extends 'profil.html.twig' %}
+
+{% block body %}
+    <div id="middle-wizard" style="padding-top: 25px">
+        {% block flash_messages %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        {{ message | raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+        <div class="row" style="margin-right: 0px; margin-left: 0px;">
+            <hr>
+            <h2 style="margin-bottom: 22px;">Mes dossiers de candidature</h2>
+            <hr>
+            {% if user.applications|length == 0 %}
+            <div style="margin-left: 15px;margin-right: 15px;background: #cacaca;padding: 13px;margin-bottom: 13px;margin-top: 13px;"> Aucune candidature trouvée </div>
+            <hr>
+            {% else %}
+                    <p> Le règlement des frais de participation doit être effectué exclusivement par versement et le reçu de paiement doit comporter obligatoirement dans son Libellé votre Numéro de candidature.</p>
+            {% endif %}
+
+            <ul class="surveys grid">
+                {% for application in user.applications %}
+                    <li class="survey-item" style="padding: 20px 0px 9px 0px!important;">
+                        <div class="survey-head">
+                            <span class="survey-else2 grid-only">
+                                <strong>  Dossier de candidature N° :  {{ application.id }} </strong>
+                            </span>
+                        </div>
+                        <div style="margin-top: 17px;">
+                            <span class="survey-progress">
+                                <span class="survey-else2 grid-only">
+                                    {{ application.course.name }} <strong>({{ application.trainingType.name }})</strong>
+                                </span>
+                            </span>
+                        </div>
+                        <div style="margin-top: 17px;">
+                            <span class="survey-progress text-right">
+                                    {% set payment_receipt = false  %}
+                                {% for document in application.documents %}
+                                    {% if document.documentType.code == "payment_receipt" %}
+                                        {% set payment_receipt = true  %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% set count_app_doc = application.documents|length  %}
+                                {% set count_course_doc = application.course.documenttypes|length  %}
+                                {% if application.paymentReceiptUploaded %}
+                                    {% set count_app_doc = count_app_doc - 1  %}
+                                {% endif %}
+                                <span class="col-xs-12 text-right" style="padding: 0;">
+                                    <span class="survey-stage">
+                                        {% if application.status == 4 %}
+                                            <span class="stage ended active btn_sucess"> Convoqué(e) </span>
+                                        {% else %}
+                                            {% if application.status == -1 %}
+                                                <span class="stage ended active btn_sucess"> Rejeté(e) </span>
+                                            {% else %}
+                                                    {% if application.documentsUploaded %}
+                                                        <span class="stage ended active btn_sucess">Candidature en attente de traitement ....</span>
+                                                    {% else %}
+                                                        <span class="stage ended active tag_notyet">Candidature incompléte …</span>
+                                                    {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                    {% if application.status != 4 and application.status != -1 %}
+
+                                    {% endif %}
+
+                                    <a class="delete_training {{ application.documentsUploaded ? "btn_sucess" : "btn_notyet" }}" href="{{ path("save_files", {'applicationId': application.id}) }}">Documents ({{ application.paymentReceiptUploaded ? application.documents|length - 1 : application.documents|length }})</a>
+                                    <!-- <a class="delete_training {{ application.paymentReceiptUploaded ? "btn_sucess" : "btn_notyet" }}" href="{{ path("payment_receipt", {'applicationId': application.id}) }}">Reçu de paiement</a> -->
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <script>
+                        $(document).ready(function(){
+                            $(".popup-{{ application.id  }}").click(function(){
+                                $('#popup-{{ application.id }}').addClass('is-visible');
+                            });
+                            $(".popup-close-{{ application.id }}").click(function(){
+                                $('#popup-{{ application.id }}').removeClass('is-visible');
+                            });
+                        });
+                    </script>
+                    <div id="popup-{{ application.id }}" class="Modal">
+                        <div class="content">
+                            <header>
+                                <h2 class="us-modal-title text-center">Modifier le choix des filières </h2>
+                            </header>
+                            <div class="us-modal-content" style="width: 100%;margin: auto;">
+                                <form method="POST" class="CouserUser" name="update_application" id="form-{{ application.id }}" action="{{ path("updateDiplomeApplication") }}">
+                                    <div class="message alert alert-danger" style="display: none"></div>
+                                    <input type="hidden" id="countSchoolField" name="countSchoolField" value="{{ application.applicationDiplomas | length }}">
+                                    <input type="hidden" id="applicationId" name="applicationId" value="{{ application.id }}">
+                                    <div class="row">
+                                        {% for diploma in application.course.diplomas %}
+                                            <div class="form-group col-md-6">
+                                                <label> Choix {{ loop.index }} :</label>
+                                                {% set selectedDiplomaId = application.applicationDiplomas[loop.index0].diploma.id %}
+                                                <select  class="normal_select" id="diploma{{ loop.index }}" name="diplomas[]">
+                                                    <option value=""> Selectionner </option>
+                                                    {% for dpOp in application.course.diplomas %}
+                                                        <option value="{{ dpOp.id }}" {{ selectedDiplomaId == dpOp.id ? "selected" : "" }}> {{ dpOp.schoolField.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button class="btnmodalsave" type="submit">Modifier</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btnmodalannuler close-modal popup-close-{{ application.id }}" type="button">Annuler</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+            {% if user.applications|length > 0 %}
+                <hr>
+            {% endif %}
+            <h2 style="margin-bottom: 22px;margin-top:20px;">{{ user.applications|length > 0 ? "Veuillez candidater à une seule formation" : "Veuillez candidater à une seule formation" }}</h2>
+            <hr>
+        </div>
+        <ul>
+            {% for diplomaType in diplomaTypeArray %}
+                <li><h1 class="type_diplome"> {{ diplomaType['name'] }}</h1></li>
+                <ul>
+                    {% if "schools" in diplomaType|keys %}
+                        {% for school in diplomaType['schools'] %}
+                            {#<li><h2 class="school_title">{{ school['name'] }}</h2></li>#}
+                            <ul>
+                                {% for course in school['courses'] %}
+                                    <li style="display: none;"><h2 class="school_title" style="font-size: 14px;display: inline-block; border-bottom: 1px solid #e9625c;"> {{ loop.index  }} - {{ course['name'] }} (<a href="http://esith.ac.ma/formationn.php" target="_blank"> Consulter les détails des formations proposées </a>) :</h2></li>
+                                {% for trainingType in course['trainingTypes'] %}
+                                    <li style="display: none;"><h1 class="type_formation">- {{ trainingType['name'] }}</h1></li>
+                                    <div style="margin-left: 20px;">
+                                        {% for diploma in trainingType['diplomas'] %}
+                                            {% set link =  "" %}
+                                            {% if diploma['id'] == 12 %}
+                                                  {% set link =  "http://www.enameknes.net/?page_id=972" %}
+                                            {% endif %}
+
+                                            {% if diploma['id'] == 13 %}
+                                                  {% set link = "http://www.enameknes.net/?page_id=4664" %}
+                                            {% endif %}
+
+                                            {% if diploma['id'] == 14 %}
+                                                  {% set link =  "http://www.enameknes.net/wp-content/uploads/2019/02/Master-SGGF-2018.pdf" %}
+                                            {% endif %}
+
+                                            {% if diploma['id'] == 15 %}
+                                                  {% set link =  "http://www.enameknes.net/wp-content/uploads/2019/02/Master-GNSS_FSGIT-ENAM-H2.pdf" %}
+                                            {% endif %}
+
+                                      <!--  <li><h2 class="school_title" style="font-size: 14px;display: inline-block; border-bottom: 1px solid #e9625c;">- {{ diploma['name'] }} (<a href="{{ link }}" target="_blank"> Consulter les détails de la formation proposée </a>) </h2></li> -->
+                                        {% endfor %}
+                                    </div>
+                                    <div class="" style="margin: 24px;">
+                                        {{ course['conditions']| raw }}
+                                    </div>
+                                    <div style="margin-left: 20px; background: #ddd; padding: 6px; margin-bottom: 13px;margin-top:13px;">
+                                        - Date limite de candidature :  {{ course['applicationDeadline'] |date("d/m/Y") }} <br>
+                                        - Date limite de paiement des frais de candidature :  {{ course['paymentReceiptDeadline'] |date("d/m/Y") }} <br>
+
+                                    </div>
+                                    <div>
+                                        {% if course['applicationDeadline'] < date() %}
+                                            <a href="JavaScript:Void(0);" class="poser_candidatures" style="cursor: not-allowed;background-color: #e6e6e6;color: #000;"> La candidature à cette formation est clôturée </a>
+                                        {% else %}
+                                            {% if trainingType['postulated'] %}
+                                                <a href="JavaScript:Void(0);" class="poser_candidatures" style="cursor: not-allowed;background-color: #e6e6e6;color: #000;"> Vous avez déja postulé à cette formation </a>
+                                            {% else %}
+                                                <a class="poser_candidatures popup-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id']}}-{{ trainingType['id']  }}">Postuler</a>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </div>
+                                <hr style="margin-top: 52px;">
+                                    <script>
+                                        $(document).ready(function(){
+                                            $(".popup-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id'] }}-{{ trainingType['id']  }}").click(function(){
+                                                $('#popup-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id'] }}-{{ trainingType['id'] }}').addClass('is-visible');
+                                            });
+                                            $(".popup-close-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id']}}-{{trainingType['id'] }}").click(function(){
+                                                $('#popup-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id']}}-{{trainingType['id'] }}').removeClass('is-visible');
+                                            });
+                                        });
+                                    </script>
+                                    <div id="popup-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id']}}-{{ trainingType['id'] }}" class="Modal">
+                                        <div class="content">
+                                            <header>
+                                                <h2 class="us-modal-title text-center">Candidature</h2>
+                                            </header>
+                                            <div class="us-modal-content" style="width: 100%;margin: auto;">
+                                                <form method="POST" class="CouserUser" name="create_application" id="form-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id']}}-{{trainingType['id'] }}" action="{{ path("setFieltToUser") }}">
+                                                    <div class="message alert alert-danger" style="display: none"></div>
+                                                    <input type="hidden" id="countSchoolField" name="countSchoolField" value="{{ trainingType['diplomas'] | length }}">
+                                                    <input type="hidden" id="diplomaTypeId" name="diplomaTypeId" value="{{ diplomaType['id'] }}">
+                                                    <input type="hidden" id="schoolId" name="schoolId" value="{{ school['id'] }}">
+                                                    <input type="hidden" id="courseId" name="courseId" value="{{ course['id'] }}">
+                                                    <input type="hidden" id="trainingTypeId" name="trainingTypeId" value="{{ trainingType['id'] }}">
+                                                    <div class="row" style="display: none;">
+                                                    {% for diploma in trainingType['diplomas'] %}
+                                                        <div class="form-group col-md-6">
+                                                            <label> Choix {{ loop.index }} :</label>
+                                                            <select  class="normal_select" id="diploma{{ loop.index }}" name="diplomas[]">
+                                                                <option value=""> Selectionner </option>
+                                                                {% for dpOp in trainingType['diplomas'] %}
+                                                                    <option value="{{ dpOp['id'] }}" selected> {{ dpOp['name'] }} </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    {% endfor %}
+                                                    </div>
+                                                    <div class="conditions" style="">
+                                                        <label style="margin-left: 0px; margin-top: 10px; margin-bottom: 2px;">Conditions :</label>
+                                                        <hr style="margin: 0px 0;">
+                                                        <br>
+                                                        <div class="conditionsTexte">
+                                                            {{ course['conditions']| raw }}
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div class="conditions" style="">
+                                                        <label style="margin-left: 0px; margin-top: 10px; margin-bottom: 2px;">Dates :</label>
+                                                        <hr style="margin: 0px 0;">
+                                                        <br>
+                                                        - Date limite de candidature :  {{ course['applicationDeadline'] |date("d/m/Y") }} <br>
+                                                        - Date limite de paiement des frais de candidature :  {{ course['paymentReceiptDeadline'] |date("d/m/Y") }} <br>
+
+                                                        <br>
+                                                        <input type="checkbox" name="accepteConditions" class="accepteConditions"/> j'accepte les conditions de la formation.
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <button class="btnmodalsave" type="submit">Candidater</button>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <button class="btnmodalannuler close-modal popup-close-{{ diplomaType['id'] }}-{{ school['id'] }}-{{ course['id']}}-{{trainingType['id'] }}" type="button">Annuler</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <style>
+        .select2-container {
+            margin-bottom: 0px;
+        }
+        .type_formation {
+            background-color: #eff7eb;
+            font-size: 13px;
+            padding: 5px;
+            margin-top: 15px;
+            color: #69ad45;
+            text-align: left;
+            padding-left: 10px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $("form[name='create_application']").submit(function(){
+            var $form = $(this);
+            var formId = $form.attr('id');
+            var trainingTypeId = $("#"+formId +" .trainingType").val();
+            var courseId = $("#"+formId +" .courses").val();
+            var accepteConditions = $("#"+formId +" .accepteConditions").is(":checked");
+            var countSchoolField = $("#"+formId +" #countSchoolField").val();
+
+            var state =true;
+            $("#"+formId +" .message").hide();
+            $("#"+formId +" .message").html("");
+
+            for (i = 1; i <= countSchoolField; i++) {
+                var selectedValue = $("#"+formId +" #diploma"+ i).val();
+                if(selectedValue == ""){
+                    $("#"+formId +" .message").append("<li>Veuillez séléctionner le choix "+ i+".</li>");
+                    state =false;
+                }
+            }
+
+            if(!accepteConditions){
+                $("#"+formId +" .message").append("<li>Veuillez accepter les conditions de la formation.</li>");
+                state =false;
+            }
+            if(state){
+                return true;
+            }else{
+                $("#"+formId +" .message").show();
+                return false;
+            }
+        });
+
+        $("form[name='update_application']").submit(function(){
+            var $form = $(this);
+            var formId = $form.attr('id');
+            var countSchoolField = $("#"+formId +" #countSchoolField").val();
+
+            var state =true;
+            $("#"+formId +" .message").hide();
+            $("#"+formId +" .message").html("");
+
+            for (i = 1; i <= countSchoolField; i++) {
+                var selectedValue = $("#"+formId +" #diploma"+ i).val();
+                if(selectedValue == ""){
+                    console.log("error");
+                    $("#"+formId +" .message").append("<li>Veuillez séléctionner le choix "+ i+".</li>");
+                    state =false;
+                }
+            }
+            if(state){
+                return true;
+            }else{
+                $("#"+formId +" .message").show();
+                return false;
+            }
+        });
+
+    </script>
+{% endblock %}

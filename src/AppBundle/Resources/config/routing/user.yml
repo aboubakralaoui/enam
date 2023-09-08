@@ -1,0 +1,45 @@
+user_index:
+    path:     /
+    defaults: { _controller: "AppBundle:User:index" }
+    methods:  GET
+
+user_index_admin:
+    path:     /indexAdmin
+    defaults: { _controller: "AppBundle:User:indexAdmin" }
+    methods:  GET
+
+user_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:User:show" }
+    methods:  GET
+
+user_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:User:new" }
+    methods:  [GET, POST]
+
+user_new_admin:
+    path:     /newAdmin
+    defaults: { _controller: "AppBundle:User:newAdmin" }
+    methods:  [GET, POST]
+
+user_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:User:edit" }
+    methods:  [GET, POST]
+
+
+user_edit_admin:
+    path:     /{id}/editAdmin
+    defaults: { _controller: "AppBundle:User:editAdmin" }
+    methods:  [GET, POST]
+
+user_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:User:delete" }
+    methods:  DELETE
+
+export_candidats:
+    path:     /exportCandidats
+    defaults: { _controller: "AppBundle:User:exportCandidats" }
+    methods:  GET

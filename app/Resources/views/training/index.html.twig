@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Trainings list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Yeargraduation</th>
+                <th>Specialty</th>
+                <th>Establishment</th>
+                <th>Level</th>
+                <th>Mention</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for training in trainings %}
+            <tr>
+                <td><a href="{{ path('training_show', { 'id': training.id }) }}">{{ training.id }}</a></td>
+                <td>{{ training.yearGraduation }}</td>
+                <td>{{ training.specialty }}</td>
+                <td>{{ training.establishment }}</td>
+                <td>{{ training.level }}</td>
+                <td>{{ training.mention }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('training_show', { 'id': training.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('training_edit', { 'id': training.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('training_new') }}">Create a new training</a>
+        </li>
+    </ul>
+{% endblock %}

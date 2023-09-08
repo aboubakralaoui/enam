@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+        Bonjour {{ document.application.user.firstName }} {{ document.application.user.lastName }} ,
+        <p>Votre document <strong> {{ document.documentType.name }} </strong> pour votre dossier de candidature N°: <strong>{{ document.application.id }}</strong> a été rejeté pour non conformité.</p>
+        {% set path = "uploads" ~ "/" ~ document.application.user.id ~ "/" ~ document.application.id ~ "/" ~ document.fileName %}
+        <p></p><a style="font-size: 13px;" href="{{ absolute_url(asset(path)) }}" target="_blank">
+                Voir le fichier
+        </a>
+        </p>
+        <p>Veuillez revenir sur votre espace candidature et joindre le bon document (supprimer le document existant et le remplacer par le bon document).</p>
+
+        <br>
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+        <p>ENAM</p>
+
+        <p>Direction des études et des affaires académiques</p>
+
+        <p>Km10, Rte Haj Kaddour,BP S-40, Meknès 50001 Maroc </p>
+
+        <p>Tél. : +212 (0)535 300239/40/41</p>
+
+        <p>master@enameknes.net</p>
+</body>
+</html>

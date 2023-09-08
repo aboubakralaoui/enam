@@ -1,0 +1,279 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light bg-inverse">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> Liste des candidats ({{ pagination.getTotalItemCount }} candidats)</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{ path("export_candidats") }}" class="btn btn-circle green btn-xs">Exporter la liste des candidats</a>
+                        <button class="btn btn-circle red btn-xs sendMail">Envoyer un mail</button>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="todo-container">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="">
+                                            <form id="searchForm" method="GET" action="{{ path("application_index") }}">
+                                                <div class="search-page search-content-3">
+                                                    <div class="search-filter ">
+                                                        <div class="search-label uppercase">FirstName/LastName/Email/CIN/CNE/Tel :</div>
+                                                        <input type="text" name="search" class="form-control" id="search" value="{{ params["search"] }}">
+                                                        <div class="search-label uppercase">Etablissement :</div>
+                                                        <select class="form-control" name="school"
+                                                                onchange="this.form.submit()">
+                                                            {% if user.role == "responsable" %}
+                                                                <option value="{{ user.school.id }}">{{ user.school }}</option>
+                                                            {% else %}
+                                                                <option value=""> ----------</option>
+                                                                {% for school in schools %}
+                                                                    <option value="{{ school.id }}" {{ params["schoolId"] == school.id ?" selected = 'selected'" }}>{{ school.name }}</option>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </select>
+                                                        <div class="search-label uppercase">Type du diplome :</div>
+                                                        <select class="form-control" name="diplomaType"
+                                                                onchange="this.form.submit()">
+                                                            <option value=""> ----------</option>
+                                                            {% for diplomaType in diplomaTypes %}
+                                                                <option value="{{ diplomaType.id }}" {{ params["diplomaTypeId"] == diplomaType.id ?" selected = 'selected'" }}>{{ diplomaType.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="search-label uppercase">Filiére :</div>
+                                                        <select class="form-control" name="schoolField"
+                                                                onchange="this.form.submit()">
+                                                            <option value=""> ----------</option>
+                                                            {% for schoolField in schoolFields %}
+                                                                <option value="{{ schoolField.id }}" {{ params["schoolFieldId"] == schoolField.id ?" selected = 'selected'" }}>{{ schoolField.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="search-label uppercase">Type de la formation :</div>
+                                                        <select class="form-control" name="trainingType"
+                                                                onchange="this.form.submit()">
+                                                            <option value=""> ----------</option>
+                                                            {% for trainingType in trainingTypes %}
+                                                                <option value="{{ trainingType.id }}" {{ params["trainingTypeId"] == trainingType.id ?" selected = 'selected'" }}>{{ trainingType.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="search-label uppercase">Passerelle :</div>
+                                                        <select class="form-control" name="passerelle"
+                                                                onchange="this.form.submit()">
+                                                            <option value=""> ----------</option>
+                                                            {% for course in courses %}
+                                                                <option value="{{ course.id }}" {{ params["passerelleId"] == course.id ?" selected = 'selected'" }}>{{ course.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="search-label uppercase">Statut :</div>
+                                                        <select class="form-control" name="status"
+                                                                onchange="this.form.submit()">
+                                                            <option value=""> ----------</option>
+                                                            {% if user.role == "administrator" %}
+                                                                <option value="0" {{ params["status"] == 0 and params["status"] != "" ? "selected = 'selected'" : "" }}>
+                                                                    Prospect
+                                                                </option>
+                                                            {% endif %}
+                                                            <option value="1" {{ params["status"] == 1 and params["status"] != "" ? "selected = 'selected'" : "" }}>
+                                                                Candidat
+                                                            </option>
+                                                            <option value="2" {{ params["status"] == 2 and params["status"] != "" ? "selected = 'selected'" : "" }}>
+                                                                Affirmé
+                                                            </option>
+                                                            <option value="3" {{ params["status"] == 3 and params["status"] != "" ? "selected = 'selected'" : "" }}>
+                                                                Convoqué
+                                                            </option>
+                                                            <option value="4" {{ params["status"] == 4 and params["status"] != "" ? "selected = 'selected'" : "" }}>
+                                                                Rejeté
+                                                            </option>
+                                                        </select>
+                                                        <input style="margin-top: 15px; margin-bottom: 15px;" class="btn green bold uppercase btn-block" type="submit" id="submitsearch">
+                                                        <div class="search-filter-divider bg-grey-steel"></div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="row">
+                                            {% if pagination|length > 0 %}
+                                                {% for user in pagination %}
+                                                    <div class="col-md-6">
+                                                        <ul class="todo-projects-container">
+                                                            <li class="todo-padding-b-0" style="padding: 10px 10px;">
+                                                                <div class="todo-head" style="padding-bottom: 4px;">
+                                                                    <p style="margin-left: 3px;">
+                                                                        <input type="checkbox" name="sendMail" value="{{ user.id }}">
+                                                                    </p>
+                                                                    <h3 style="margin-bottom: 0px; padding-left: 3px; font-size: 12px;">
+                                                                        <a href="{{ path("candidate",{"id" : user.id}) }}"
+                                                                           target="_blank">{{ user.lastName }} {{ user.firstName }}</a>
+                                                                    </h3>
+                                                                </div>
+                                                            </li>
+                                                            <li class="todo-projects-item"
+                                                                style="padding: 11px 10px;cursor: default;">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-12"
+                                                                                   style="font-size: 13px;font-weight: 600;">Email
+                                                                                :</label>
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"
+                                                                                   style="margin-bottom: -6px !important;"> {{ user.email }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-12"
+                                                                                   style="font-size: 13px;font-weight: 600;">CIN
+                                                                                :</label>
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"
+                                                                                   style="margin-bottom: -6px !important;"> {{ user.cin }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-12"
+                                                                                   style="font-size: 13px;font-weight: 600;">Téléphone
+                                                                                :</label>
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"
+                                                                                   style="margin-bottom: -6px !important;"> {{ user.phoneNumber }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-12"
+                                                                                   style="font-size: 13px;font-weight: 600;">Date d'inscription
+                                                                                :</label>
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"
+                                                                                   style="margin-bottom: -6px !important;"> {{ user.createdAt|date('d/m/Y') }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <div class="todo-projects-divider"></div>
+                                                        </ul>
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <div class="col-md-12">
+                                                    <div class="m-heading-1 border-green m-bordered">
+                                                        Aucun candidat trouvé.
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        {# display navigation #}
+                                        <div class="navigation">
+                                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div id="sendMail" class="modal fade bs-modal-lg" data-keyboard="false" data-backdrop="static" tabindex="-1"
+         role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="emailFrom" action="{{ path("application_sendMail") }}" method="POST">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">L'envoi de mail</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="message alert alert-danger" style="display: none"></div>
+                        <input type="hidden" id="ids" name="ids"/>
+                        <div class="form-group">
+                            <label>Sujet :</label>
+                            <input id="mailSubject" class="form-control" name="mailSubject"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Message :</label>
+                            <textarea id="mailBody" name="mailBody"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn default" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                        <input type="submit" class="btn btn-danger" value="Envoyer">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <style>
+        .page-container-bg-solid .page-content {
+            background: #eef1f5 !important;
+        }
+    </style>
+    <script>
+
+        $('.sendMail').click(function () {
+            //alert( "Handler for .click() called." );
+            var ids = [];
+            $('input:checkbox[name=sendMail]').each(function () {
+                if ($(this).is(':checked')) {
+                    ids.push($(this).val());
+                }
+            });
+            if (ids.length > 0) {
+                $('#ids').val(ids.toString());
+                $("#sendMail").modal("show");
+            } else {
+                alert("Veuillez au moins séléctionner un candidat");
+            }
+        });
+
+        $('#mailBody').wysihtml5();
+        $("#emailFrom").submit(function () {
+            var mailSubject = $("#mailSubject").val();
+            var mailBody = $("#mailBody").val();
+            var state = true;
+            $(".message").hide();
+            $(".message").html("");
+            if (mailSubject == "") {
+                $(".message").show();
+                $(".message").append("<li>Veuillez remplir le champ sujet.</li>");
+                state = false;
+            }
+            if (mailBody == "") {
+                $(".message").show();
+                $(".message").append("<li>Veuillez remplir le champ message.</li>");
+                state = false;
+            }
+            if (state) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    </script>
+
+{% endblock %}

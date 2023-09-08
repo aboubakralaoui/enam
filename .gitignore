@@ -1,0 +1,12 @@
+/app/cache/*
+/app/logs/*
+/vendor/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+web/bundles/*
+web/uploads/*
+.idea
+.DS_Store
+nbproject/
+/bin/
+app/config/parameters.yml

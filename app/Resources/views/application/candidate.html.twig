@@ -1,0 +1,508 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <div class="profile">
+        <div class="tabbable-line tabbable-full-width">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_1_1" data-toggle="tab"> Détail </a>
+                </li>
+                <a href="{{ path("initialize_password", { 'id' : user.id }) }}" class="btn purple-sharp pull-right" style="margin-left: 5px;">
+                    invitation pour changer le mot de passe
+                </a>
+                <button id="updatStudentData" class="btn purple-sharp pull-right" style="">
+                    Modifier les info de l'étudiant
+                </button>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1_1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-9 profile-info">
+                                    <h1 class="font-green sbold uppercase">{{ user.firstName }} {{ user.lastName }} / {{ user.statusCandidat() }}</h1>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">Email:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">CIN:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"> {{ user.cin }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">CNE:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"> {{ user.cne == "" or user.cne == null ? "Non mentionné" : user.cne }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">Téléphone:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"> {{ user.phoneNumber }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">Date de
+                                                    naissance:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"> {{ user.birthDate|date('d/m/Y') }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">Lieu de
+                                                    naissance:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"> {{ user.placeBirth }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6"
+                                                       style="font-size: 13px;font-weight: 600;">Nationalité:</label>
+                                                <div class="col-md-6" style="margin-top: -6px;">
+                                                    <p class="form-control-static"> {{ user.nationality }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3"
+                                                       style="font-size: 13px;font-weight: 600;">Addresse:</label>
+                                                <div class="col-md-9" style="margin-top: -6px;margin-left: -1%;">
+                                                    <p class="form-control-static"> {{ user.address }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                      
+                                     
+                                    
+                                   
+                                  
+                                 
+                                
+                               
+                              
+                      
+                             
+                            
+                       
+                           
+                          
+                         
+                        
+                                        <!--/span-->
+                                    </div>
+                                </div>
+                                <!--end col-md-8-->
+                                <div class="col-md-3">
+                                    <div class="portlet sale-summary">
+                                        <div class="portlet-title">
+                                            <div class="caption font-red sbold"> Résumé</div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                                        <span class="sale-info"> Candidatures
+                                                                            <i class="fa fa-img-up"></i>
+                                                                        </span>
+                                                    <span class="sale-num">  {{ user.applications|length }} </span>
+                                                </li>
+                                                <li>
+                                                    <span class="sale-info"> Cursus </span>
+                                                    <span class="sale-num"> {{ user.trainings|length }} </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end col-md-4-->
+                            </div>
+                            <!--end row-->
+                            <div class="tabbable-line tabbable-custom-profile">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab_1_22" data-toggle="tab"> Candidatures </a>
+                                    </li>
+                                    <li >
+                                        <a href="#tab_1_11" data-toggle="tab"> Cursus </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1_22">
+                                        <div class="tab-pane active" id="tab_1_1_1">
+                                            <div class="portlet-body">
+                                                <div class="todo-container">
+                                                    <div class="col-md-12">
+                                                        {% set state = app.user.role == "administrator" ? true : false %}
+                                                        <ul class="todo-projects-container">
+                                                            {% for application in user.applications %}
+                                                                {% if state %}
+                                                                <li class="todo-padding-b-0" style="padding: 16px 20px;">
+                                                                    <div class="todo-head">
+                                                                        <a {{ application.status == 4 or application.status == -1 ? "style='display:none;'" : "" }} href="{{ path("application_change_status", {'applicationId' : application.id , 'statusId' : 4 }) }}" class="btn btn-square pull-right btn-sm green todo-bold" style="margin-left: 5px;">
+                                                                            Convoquer
+                                                                        </a>
+                                                                        <a {{ application.status == 4 or application.status == -1 ? "style='display:none;'" : "" }} href="{{ path("application_change_status", {'applicationId' : application.id , 'statusId' : -1 }) }}" class="btn btn-square pull-right btn-sm green todo-bold" style="margin-left: 5px;">
+                                                                            Rejeter
+                                                                        </a>
+                                                                        <a {{ application.status == 0 or application.status == null ? "style='display:none;'" : "" }} href="{{ path("application_change_status", {'applicationId' : application.id , 'statusId' : 0 }) }}" class="btn btn-square pull-right btn-sm green todo-bold" style="margin-left: 5px;">
+                                                                            Restaurer
+                                                                        </a>
+                                                                        <p style="font-size: 15px; margin-left: 0px;"> <strong>Candidature N° : {{ application.id }} / </strong>{{ application.course }}</p>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="todo-projects-item" style="padding: 19px 19px 0px;">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label col-md-5"
+                                                                                       style="font-size: 13px;font-weight: 600;">Type de diplome :</label>
+                                                                                <div class="col-md-7"
+                                                                                     style="margin-top: -6px;">
+                                                                                    <p class="form-control-static"> {{ application.diplomaType.name }} </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label col-md-5"
+                                                                                       style="font-size: 13px;font-weight: 600;">Type de la formation :</label>
+                                                                                <div class="col-md-7"
+                                                                                     style="margin-top: -6px;">
+                                                                                    <p class="form-control-static"> {{ application.trainingType.name }} </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label col-md-5"
+                                                                                       style="font-size: 13px;font-weight: 600;">Statut :</label>
+                                                                                <div class="col-md-7"
+                                                                                     style="margin-top: -6px;">
+                                                                                    <p class="form-control-static">
+                                                                                        {% if application.status == 4 %}
+                                                                                            {{ "Convoqué" }}
+                                                                                        {% elseif application.status == -1 %}
+                                                                                            {{ "Rejeté" }}
+                                                                                        {% else %}
+                                                                                            {{ "En cours" }}
+                                                                                        {% endif %}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <div class="form-group pull-right">
+                                                                                <button id="{{ application.id }}" class="btn purple-sharp showDocuments" style="margin-top: 9px; right: 15px; position: absolute;">
+                                                                                    Documents
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <div class="todo-projects-divider"></div>
+                                                                {% else %}
+                                                                    {% if app.user.school and app.user.school == application.course.diploma.school %}
+                                                                    <li class="todo-padding-b-0" style="padding: 16px 20px;">
+                                                                        <div class="todo-head">
+                                                                            <a {{ application.status == 4 or application.status == -1 ? "style='display:none;'" : "" }} href="{{ path("application_change_status", {'applicationId' : application.id , 'statusId' : 4 }) }}" class="btn btn-square pull-right btn-sm green todo-bold" style="margin-left: 5px;">
+                                                                                Convoquer
+                                                                            </a>
+                                                                            <a {{ application.status == 4 or application.status == -1 ? "style='display:none;'" : "" }} href="{{ path("application_change_status", {'applicationId' : application.id , 'statusId' : -1 }) }}" class="btn btn-square pull-right btn-sm green todo-bold" style="margin-left: 5px;">
+                                                                                Rejeter
+                                                                            </a>
+                                                                            <a {{ application.status == 0 or application.status == null ? "style='display:none;'" : "" }} href="{{ path("application_change_status", {'applicationId' : application.id , 'statusId' : 0 }) }}" class="btn btn-square pull-right btn-sm green todo-bold" style="margin-left: 5px;">
+                                                                                Restaurer
+                                                                            </a>
+                                                                            <p style="font-size: 15px; margin-left: 0px;">{{ application.course.diploma.school }} / {{ application.course.diploma.schoolField }}</p>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li class="todo-projects-item" style="padding: 19px 19px 0px;">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-5"
+                                                                                           style="font-size: 13px;font-weight: 600;">Niveau :</label>
+                                                                                    <div class="col-md-7"
+                                                                                         style="margin-top: -6px;">
+                                                                                        <p class="form-control-static"> {{ application.course.name }} </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-5"
+                                                                                           style="font-size: 13px;font-weight: 600;">Type de diplome :</label>
+                                                                                    <div class="col-md-7"
+                                                                                         style="margin-top: -6px;">
+                                                                                        <p class="form-control-static"> {{ application.course.diploma.diplomaType.name }} </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-5"
+                                                                                           style="font-size: 13px;font-weight: 600;">Type de la formation :</label>
+                                                                                    <div class="col-md-7"
+                                                                                         style="margin-top: -6px;">
+                                                                                        <p class="form-control-static"> {{ application.course.diploma.trainingType.name }} </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-5"
+                                                                                           style="font-size: 13px;font-weight: 600;">Statut :</label>
+                                                                                    <div class="col-md-7"
+                                                                                         style="margin-top: -6px;">
+                                                                                        <p class="form-control-static">
+                                                                                            {% if application.status == 4 %}
+                                                                                                {{ "Convoqué" }}
+                                                                                            {% elseif application.status == -1 %}
+                                                                                                {{ "Rejeté" }}
+                                                                                            {% else %}
+                                                                                                {{ "En cours" }}
+                                                                                            {% endif %}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <div class="form-group pull-right">
+                                                                                    <button id="{{ application.id }}" class="btn purple-sharp showDocuments" style="margin-top: 9px; right: 15px; position: absolute;">
+                                                                                        Documents
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <div class="todo-projects-divider"></div>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </ul>
+                                                        {% if user.applications|length == 0  %}
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="m-heading-1 border-green m-bordered">
+                                                                        Aucune candidature trouvée.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_1_11">
+                                        <div class="portlet-body">
+                                            <div class="todo-container">
+                                                <div class="col-md-12">
+                                                    <ul class="todo-projects-container">
+                                                        {% for training in user.trainings %}
+                                                            <li class="todo-projects-item" style="padding: 19px 19px 0px;">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5"
+                                                                                   style="font-size: 13px;font-weight: 600;">Niveau :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.level }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5"
+                                                                                   style="font-size: 13px;font-weight: 600;">Année scolaire :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.yearGraduation }} / {{ training.yearGraduation + 1}} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5"
+                                                                                   style="font-size: 13px;font-weight: 600;">Spécialité/Option :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.specialty }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5"
+                                                                                   style="font-size: 13px;font-weight: 600;">Etablisement :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.establishment }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5"
+                                                                                   style="font-size: 13px;font-weight: 600;">Moyenne :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.moyenne }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5"
+                                                                                   style="font-size: 13px;font-weight: 600;">Ville :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.city }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-5" style="font-size: 13px;font-weight: 600;">Statut de l'année :</label>
+                                                                            <div class="col-md-7"
+                                                                                 style="margin-top: -6px;">
+                                                                                <p class="form-control-static"> {{ training.status }} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <div class="todo-projects-divider"></div>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% if user.trainings|length == 0  %}
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="m-heading-1 border-green m-bordered">
+                                                                    Aucune formation trouvée.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="documentsModal" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Liste des documents</h4>
+                </div>
+                <div class="modal-body"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="updatStudentDataModal" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Modification des information de l'étudiant</h4>
+                </div>
+                <div class="modal-body">
+                      {{ form_start(edit_form) }}
+                          <div class="form-group">
+                              <label for="email">CIN <span style="color: red; font-size: 16px;">*</span> :</label>
+                              {{ form_widget(edit_form.cin, { 'attr': {'class': 'required form-control error cin'} }) }}
+                              {{ form_errors(edit_form.cin) }}
+                          </div>
+
+                          <div class="form-group">
+                              <label for="email">CNE <span style="color: red; font-size: 16px;">*</span> :</label>
+                              {{ form_widget(edit_form.cne, { 'attr': {'class': 'required form-control error cne'} }) }}
+                              {{ form_errors(edit_form.cne) }}
+                          </div>
+
+                          <div class="form-group">
+                              <label for="email">Email <span style="color: red; font-size: 16px;">*</span> :</label>
+                              {{ form_widget(edit_form.email, { 'attr': {'class': 'required form-control error email'} }) }}
+                              {{ form_errors(edit_form.email) }}
+                          </div>
+                          <input type="submit" class"btn btn-primary" value="Enregistrer" />
+                      {{ form_end(edit_form) }}
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    $(".showDocuments").click(function() {
+        var applicationId = (this).id;
+        $.ajax({
+            type: "GET",
+            url: Routing.generate('get_documents_application_id', {applicationId : applicationId}),
+            data: {},
+            async:false,
+            success: function(data){
+                $("#documentsModal .modal-body").html(data);
+                $("#documentsModal").modal("show");
+            },
+            error: function(data){
+                alert("no");
+            }
+        });
+    });
+    $("#updatStudentData").click(function() {
+        $("#updatStudentDataModal").modal("show");
+    });
+    {% if openDocumentApp != null %}
+        $("#{{ openDocumentApp }}" ).trigger( "click" );
+    {% endif %}
+
+    {% if not edit_form.vars.valid %}
+        $("#updatStudentDataModal").modal("show");
+    {% endif %}
+</script>
+{% endblock %}

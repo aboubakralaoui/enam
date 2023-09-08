@@ -1,0 +1,202 @@
+{% extends 'profil.html.twig' %}
+{% block body %}
+<div id="middle-wizard" style="padding-top: 25px">
+   <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 30px;">
+   <div class="col-md-4">
+      <div class="form-group form-group-custom">
+         <label for="email"> Nom complet : </label>
+         <strong>{{ user.firstName ~ user.lastName }}</strong>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="form-group form-group-custom">
+         <label for="email"> CIN :</label>
+         <strong>{{ user.cin }}</strong>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="form-group form-group-custom">
+         <label for="email"> Date de naissance : </label>
+         <strong>{{ user.birthDate |date("d/m/Y") }}</strong>
+      </div>
+   </div>
+</div>
+
+
+<input type="hidden" id="nomprenom" name="nomprenom" value="{{ user.firstName ~ user.lastName }}"/>
+<input type="hidden" id="idcommande" name="idcommande" value="{{ user.id }}"/>
+<input type="hidden" id="email" name="email" value="{{ user.email }}"/>
+<input type="hidden" id="tel" name="tel" value="{{ user.phoneNumber }}"/>
+<input type="hidden" id="address" name="address" value="{{ user.address }}"/>
+<input type="hidden" id="city" name="city" value="{{ user.address }}"/>
+
+</div>
+{% if onlinePayment == null and document == null %}
+    <form action="{{ path('online_payment') }}" method="post" enctype="multipart/form-data">
+        <div id="middle-wizard" id="end" style="padding-top: 0px;text-align: center;">
+          <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 10px;">
+            <p>
+              Veuillez régler les frais du test  en ligne en cliquant sur <button type="button" class="btn btn-success" id="payer-ligne">Payer en ligne</button>
+            </p>
+          </div>
+        </div>
+        <div class="row" style='text-align: center;'>
+          <strong style="font-size: 20px;"> --------- Ou ---------</strong>
+        </div>
+        <div id="middle-wizard" id="end" style="padding-top: 25px;text-align: center;">
+            <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 30px;">
+              <div class="col-2 text-truncate" style="text-align: left;padding: 25px;">
+                Ou par virement (de 300 dhs) sur le compte N°: <strong>310 810 10000 2400 40187 0145 ouvert à la Trésorerie Générale du Royaume et ce avant le 10 Octobre 2021 à 16h.</strong>
+                <U>et joindre le reçu de virement/versement en cliquant sur 'Joindre Reçu de paiement'</U>
+              </div>
+              <div class="form-controlGroup-inputWrapper">
+                  <label for="{{ documentType.code }}" class="form-input form-input--file">
+                      <span class="form-input--file-text form-input--file-text{{ documentType.code }}">Sélectionner le Reçu de paiement..</span>
+                      <span class="form-input--file-button">Parcourir</span>
+                      <input class="form-input-file form-input-file{{ documentType.code }}" type="file"
+                             id="{{ documentType.code }}" name="{{ documentType.code }}{{ documentType.multiple ? '[]' : "" }}" {{ documentType.multiple ? 'multiple' : "" }}>
+                  </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary add_training_btn">Enregistrer</button>
+<br><br>
+
+
+
+
+
+          </div>
+    </form>
+{% elseif onlinePayment == null and document != null %}
+    <form action="{{ path('online_payment') }}" method="post" enctype="multipart/form-data">
+        <div id="middle-wizard" id="end" style="padding-top: 25px;text-align: center;">
+            <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 30px;">
+              <div class="col-2 text-truncate" style="text-align: left;padding: 25px;">
+                Ou par virement sur le compte N°: <strong>310 810 10000 2400 40187 0145 ouvert à la Trésorerie Générale du Royaume et ce avant le 26 Juillet 2021 à 16.</strong>
+                <U>et joindre le reçu de virement/versement en cliquant sur 'Joindre Reçu de paiement'</U>
+              </div>
+              <div class="form-controlGroup-inputWrapper">
+                  <label for="{{ documentType.code }}" class="form-input form-input--file">
+                      <span class="form-input--file-text form-input--file-text{{ documentType.code }}">Sélectionner le Reçu de paiement..</span>
+                      <span class="form-input--file-button">Parcourir</span>
+                      <input class="form-input-file form-input-file{{ documentType.code }}" type="file"
+                             id="{{ documentType.code }}" name="{{ documentType.code }}{{ documentType.multiple ? '[]' : "" }}" {{ documentType.multiple ? 'multiple' : "" }}>
+                  </label>
+                  <div class="file col-md-12">
+                      {% set path = "uploads" ~ "/" ~ application.user.id ~ "/" ~ application.id ~ "/" ~ document.fileName %}
+                      <a class="popup-link-picture bottom_link show_file" href="{{ asset(path) }}" target="_blank" style="{{ application.status == 4 ? 'line-height: 32px;' : "" }}">
+                          <i>- Visualiser le fichier existant</i>
+                          {% if document.status == 4 %}
+                              (Validé)
+                          {% elseif document.status == -1 %}
+                              (Rejeté)
+                          {% else %}
+                              (En cours)
+                          {% endif %}
+                      </a>
+
+                      <a class="bottom_link delete_file" href="{{ path('documentApplicationDelete',{"documentId": document.id ,"applicationId": application.id}) }}" style="{{ application.status == 4 ? 'line-height: 32px;' : "" }}"><i>Supprimer</i></a>
+
+                  </div>
+              </div>
+            </div>
+            {% if document == null %}
+                <button type="submit" class="btn btn-primary add_training_btn">Enregistrer</button>
+           {% endif %}
+          </div>
+    </form>
+ {% elseif onlinePayment != null and document == null %}
+   <div id="middle-wizard" id="end" style="padding-top: 0px;text-align: center;">
+     <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 10px;">
+       <p class="text-success" style="font-size: 20px;">Paiement effectué avec succès</p>
+       <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Commerçant</th>
+              <th scope="col">{{ onlinePayment.nomCmr}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="col">N° commande	</th>
+              <th scope="col">{{ onlinePayment.commandeId}}</th>
+            </tr>
+            <tr>
+              <th scope="row">N° transaction	</th>
+              <th scope="col">{{ onlinePayment.numTrans}}</th>
+            </tr>
+            <tr>
+              <th scope="row">N° autorisation	</th>
+              <th scope="col">{{ onlinePayment.numAutorisation}}</th>
+            </tr>
+            <tr>
+              <th scope="row">Date et Heure transaction	</th>
+              <th scope="col">{{ onlinePayment.dateTrans}}</th>
+            </tr>
+            <tr>
+              <th scope="row">Numéro de carte	</th>
+              <th scope="col">{{ onlinePayment.numCarte}}</th>
+            </tr>
+            <tr>
+              <th scope="row">Type de carte	</th>
+              <th scope="col">{{ onlinePayment.typeCarte}}</th>
+            </tr>
+            <tr>
+              <th scope="row">Montant TTC	</th>
+              <th scope="col">{{ onlinePayment.montant}}</th>
+            </tr>
+          </tbody>
+        </table>
+     </div>
+   </div>
+ {% endif %}
+ <div id="bottom-wizard">
+     <a type="button" href="{{ path('application')}}"  id="backward" name="backward" class="backward"><span id="span-backward">Précédent</span></a>
+ </div>
+
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready( function () {
+    $( "#payer-ligne" ).click(function() {
+        //récupération des éléments de la commande
+        var nomprenom = $('#nomprenom').val();
+        var idcommande= $('#idcommande').val();
+        var montant= '300';
+        var email = $('#email').val();
+        var langue = 'FR';
+        var successURL = 'http://api.enameknes.net/confirmation/confirmpaie.php';
+        var recallURL =  'http://api.enameknes.net/recall.php';
+        var failURL = 'http://api.enameknes.net/failURL.php';
+        var timeoutURL = '';
+        var tel = $('#tel').val();
+        var address= $('#address').val();
+        var city= $('#city').val();
+        var state = '';
+        var postcode ='150';
+        var clepub ='MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmAxaKzj4SKFmO9DfMjvnhZ0aidF7ryB7C6QZLp/kjUT1GZHli0bhcCAhgdC/T3paQ7SNfEXQo9FdjflwAF4MlrQGR6GQbYYcN7ZmoKDDa6ZT9HjY5N+bcKe/tV4FBCIfRpN97jVFJgc0TNnYDtMIFRuzeb2eAQsGKnzSKamLqzyAXh8H89YU1a0XOSBZlqHYmlbSYQLBsS7ns9HNsXoOMFNiGajFvlH1UbG41kPrGYnutjf/jTeoBui/mjh6vFTN/4bdzQmF2kwLwbfD+CCCw3om19yu5UUgXJAsH2qX66SAzhv+pgdkGxpL1OCmqJK8RTe9SOqMRF25OMDxg9617QIDAQAB';
+        var cmr ='1210501';
+        var gal ='0077';
+        var detailoperation ='';
+
+        var  mxgateway= new MXGateway(cmr, gal,clepub,langue);
+
+
+
+        //cryptage trame 1
+        var encrypteddata1=mxgateway.cryptageTrame1(nomprenom, idcommande, montant, email,detailoperation);
+        //Cryptage trame 2
+        var encrypteddata2=mxgateway.cryptageTrame2(successURL, timeoutURL);
+        //cryptage trame 3
+        var encrypteddata3=mxgateway.cryptageTrame3(failURL, recallURL);
+        //cryptage trame 4
+        var encrypteddata4=mxgateway.cryptageTrame4(tel, address, city, state, "MA", postcode);
+
+        var lien_gateway =mxgateway.generateLien(encrypteddata1, encrypteddata2,encrypteddata3,encrypteddata4);
+
+        window.top.location.href=lien_gateway;
+      });
+  });
+</script>
+{% endblock %}

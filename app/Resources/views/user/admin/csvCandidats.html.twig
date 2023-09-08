@@ -1,0 +1,4 @@
+id; Nom; Prénom; Téléphone; Email; Ville; Date d'inscription; Statut; Niveau
+{% for user in users %}
+{{ user.id }};{{ user.lastName }};{{ user.firstName }};{{ user.phoneNumber }};{{ user.email }};{{ user.placeBirth }};{{ user.createdAt|date('d/m/Y') }}; {{ user.statusCandidat() }}; {{ user.getTrainigToString }}
+{% endfor %}

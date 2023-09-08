@@ -1,0 +1,31 @@
+diploma_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Diploma:index" }
+    methods:  GET
+
+diploma_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Diploma:show" }
+    methods:  GET
+
+diploma_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Diploma:new" }
+    methods:  [GET, POST]
+
+diploma_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Diploma:edit" }
+    methods:  [GET, POST]
+
+diploma_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Diploma:delete" }
+    methods:  DELETE
+
+getFieldsByDiplomaTypeAndTrainingType:
+    path:     /getFieldsByDiplomaTypeAndTrainingType/{diplomaTypeId}/{trainingTypeId}
+    defaults: { _controller: "AppBundle:Diploma:getFieldsByDiplomaTypeAndTrainingType" }
+    methods:  GET
+    options:
+        expose: true
