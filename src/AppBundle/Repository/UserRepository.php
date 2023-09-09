@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Form\TrainingType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\Query\Expr;
@@ -19,7 +20,8 @@ class UserRepository extends EntityRepository {
             ->leftJoin('ad.diploma', 'd')
             ->leftJoin('d.schoolField', 'sf')
             ->leftJoin('app.diplomaType', 'dt')
-            ->leftJoin('app.trainingType', 'tt');
+            ->leftJoin('app.trainingType', 'tt')
+            ->leftJoin( 'u.trainings', 't');
 
         if($params['search'] != "" && $params['search'] != NULL)
         {
@@ -82,10 +84,21 @@ class UserRepository extends EntityRepository {
                 $qb->setParameter('status', -1);
             }
         }
+        if($params['level'] != "" && $params['level'] != null) {
+            if($params['level'] == 'master'){
+               $levels = TrainingType::OPTIONAL_LEVELS;
+            }else{
+                $levels = TrainingType::MANDATORY_LEVELS;
+            }
+            $qb->andWhere('t.level IN (:levels)');
+            $qb->setParameter('levels', array_values($levels), \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+        }
         $qb->andWhere('u.role = :role');
         $qb->setParameter('role', "student")
         ->addOrderBy('u.createdAt', 'DESC')
         ->distinct();
+        dump($qb->getQuery()->getSQL());
+        dump($qb->getQuery()->getParameters());
         return $qb->getQuery()->getResult();
     }
 

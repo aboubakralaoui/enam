@@ -10,13 +10,13 @@ class TrainingType extends AbstractType
 {
     const MANDATORY_LEVELS = array(
         "baccalauréat" => "baccalauréat",
-        "1ème année post bac" => "1ème année post bac" ,
+        "1ère année post bac" => "1ère année post bac" ,
         "2ème année post bac" => "2ème année post bac" ,
         "3ème année post bac" => "3ème année post bac",
     );
     const OPTIONAL_LEVELS = array(
-        "1ère année master" => "1ère année master",
-        "2ème année master" => "2ème année master",
+        "4ème année post bac" => "4ème année post bac",
+        "5ème année post bac" => "5ème année post bac",
     );
     private $years;
     private $levels;
