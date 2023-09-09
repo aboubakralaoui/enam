@@ -33,21 +33,25 @@
 </div>
 {% if onlinePayment == null and document == null %}
     <form action="{{ path('online_payment') }}" method="post" enctype="multipart/form-data">
-        <div id="middle-wizard" id="end" style="padding-top: 0px;text-align: center;">
-          <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 10px;">
-            <p>
-              Veuillez régler les frais du test  en ligne en cliquant sur <button type="button" class="btn btn-success" id="payer-ligne">Payer en ligne</button>
-            </p>
-          </div>
-        </div>
-        <div class="row" style='text-align: center;'>
-          <strong style="font-size: 20px;"> --------- Ou ---------</strong>
-        </div>
+{#        <div id="middle-wizard" id="end" style="padding-top: 0px;text-align: center;">#}
+{#          <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 10px;">#}
+{#            <p>#}
+{#              Veuillez régler les frais du test  en ligne en cliquant sur <button type="button" class="btn btn-success" id="payer-ligne">Payer en ligne</button>#}
+{#            </p>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="row" style='text-align: center;'>#}
+{#          <strong style="font-size: 20px;"> --------- Ou ---------</strong>#}
+{#        </div>#}
         <div id="middle-wizard" id="end" style="padding-top: 25px;text-align: center;">
             <div class="row" style="border: 1px solid #dfdfdf;padding-top: 16px;margin-bottom: 30px;">
               <div class="col-2 text-truncate" style="text-align: left;padding: 25px;">
-                Ou par virement (de 300 dhs) sur le compte N°: <strong>310 810 10000 2400 40187 0145 ouvert à la Trésorerie Générale du Royaume et ce avant le 10 Octobre 2021 à 16h.</strong>
-                <U>et joindre le reçu de virement/versement en cliquant sur 'Joindre Reçu de paiement'</U>
+                  Frais de dossier : Payer les frais du dossier et d’examen de <strong>100 DH (cent
+                      dirhams) </strong>au niveau de l’agence Al Barid Bank (ou autre agence bancaire de
+                  votre choix) sur le compte bancaire de l’Ecole Nationale d’Agriculture de
+                  Meknès dont le numéro est le suivant : N° <strong>350 810 0000000000009213
+                      82 </strong>.
+                <U>et joindre le reçu de virement/versement ci-dissous.</U>
               </div>
               <div class="form-controlGroup-inputWrapper">
                   <label for="{{ documentType.code }}" class="form-input form-input--file">
@@ -60,11 +64,6 @@
             </div>
             <button type="submit" class="btn btn-primary add_training_btn">Enregistrer</button>
 <br><br>
-
-
-
-
-
           </div>
     </form>
 {% elseif onlinePayment == null and document != null %}
