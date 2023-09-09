@@ -93,6 +93,14 @@
                                                                 Rejeté
                                                             </option>
                                                         </select>
+                                                        <div class="search-label uppercase">Niveau :</div>
+                                                        <select class="form-control" name="level"
+                                                                onchange="this.form.submit()">
+                                                            <option value=""> ----------</option>
+                                                            {% for level in levels %}
+                                                                <option value="{{ level }}" {{ params["level"] == level ?" selected = 'selected'" }}>{{ level }}</option>
+                                                            {% endfor %}
+                                                        </select>
                                                         <input style="margin-top: 15px; margin-bottom: 15px;" class="btn green bold uppercase btn-block" type="submit" id="submitsearch">
                                                         <div class="search-filter-divider bg-grey-steel"></div>
                                                     </div>

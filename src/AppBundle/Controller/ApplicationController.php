@@ -22,6 +22,7 @@ class ApplicationController extends Controller
         $token = $this->container->get('security.context')->getToken();
         $user = $token->getUser();
         $params = array();
+        $levels = array('Master', 'Licence');
         if($user->getRole()== "responsable"){
             $params["schoolId"] = $user->getSchool()->getId();
         }else{
@@ -33,6 +34,7 @@ class ApplicationController extends Controller
         $params["passerelleId"] = $request->query->get('passerelle');
         $params["status"] = $request->query->get('status');
         $params["search"] = $request->query->get('search');
+        $params["level"] = $request->query->get('level');
 
         $em = $this->getDoctrine()->getManager();
 
@@ -71,6 +73,7 @@ class ApplicationController extends Controller
             'courses' => $courses,
             'params' => $params,
             'user' => $user,
+            'levels' => $levels,
         ));
     }
 
