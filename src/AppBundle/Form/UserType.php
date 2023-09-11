@@ -17,14 +17,14 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add('cin')
-            //->add('nationality')
-            //->add('nationality', 'entity', array(
-            //      'class' => 'AppBundle:Nationality',
-              //  'query_builder' => function(NationalityRepository $er) {
-                //    return $er->createQueryBuilder('n')
-                  //      ->orderBy('n.id', 'ASC');
-                //},
-            //))
+//            ->add('nationality')
+//            ->add('nationality', 'entity', array(
+//                  'class' => 'AppBundle:Nationality',
+//                'query_builder' => function(NationalityRepository $er) {
+//                    return $er->createQueryBuilder('n')
+//                        ->orderBy('n.id', 'ASC');
+//                },
+//            ))
             ->add('firstName')
             ->add('lastName')
             ->add('birthDate', 'datetime', array(
@@ -39,6 +39,11 @@ class UserType extends AbstractType
           ////  ))
             ->add('placeBirth')
             ->add('phoneNumber')
+            ->add('sexe', 'choice', array(
+                'choices' => $this->getSexe(),
+                'multiple' => false,
+                'required' => true,
+            ))
             ->add('address');
     }
 
@@ -51,6 +56,15 @@ class UserType extends AbstractType
             'data_class' => 'AppBundle\Entity\User'
         ));
     }
+
+    public function getSexe()
+    {
+        return [
+            'Masculin' => 'masculin',
+            'Féminin' => 'féminin',
+        ];
+    }
+
 
     /**
      * {@inheritdoc}

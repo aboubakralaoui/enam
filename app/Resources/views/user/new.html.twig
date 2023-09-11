@@ -36,6 +36,11 @@ Le formulaire n’est pas valide
                         {{ form_widget(form.cin, { 'attr': {'class': 'required form-control error cin'} }) }}
                         {{ form_errors(form.cin) }}
                     </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Sexe <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.sexe, { 'attr': {'class': 'required form-control error sexe'} }) }}
+                        {{ form_errors(form.sexe) }}
+                    </div>
                 </ul>
             </div><!-- end col-md-6 -->
             <div class="col-md-6">
@@ -61,24 +66,6 @@ Le formulaire n’est pas valide
 
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
- 
-  
-   
-    
-     
-      
-       
     </div>
     <div id="bottom-wizard">
         <button type="submit" onchange="window.location.href =''" id="forward" name="forward" class="forward"><span id="span-forward">Enregistrer</span> </button>

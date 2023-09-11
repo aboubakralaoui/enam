@@ -84,6 +84,11 @@ class User extends BaseUser {
     private $cne;
 
     /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $sexe;
+
+    /**
      * @ORM\Column(type="boolean",name="internat", length=45, nullable=true)
      */
     private $internat;
@@ -193,6 +198,17 @@ class User extends BaseUser {
 
     function getRole() {
         return $this->role;
+    }
+
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+        return $this;
     }
 
     function setRole($role) {
