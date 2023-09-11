@@ -74,6 +74,10 @@ Le formulaire n’est pas valide
                         <label for="email">Nationalité <span style="color: red; font-size: 16px;">*</span> :</label>
                         {{ form_widget(edit_form.nationality, { 'attr': {'class': 'required form-control error nationality'} }) }}
                     </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Situation Professionnelle <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.situationProfessionnelle, { 'attr': {'class': 'required form-control error situationProfessionnelle'} }) }}
+                    </div>
                     {#<div class="form-group">
                         <input type="submit" class="btn btn-primary pull-right" value="Enregistrer"/>
                     </div>#}

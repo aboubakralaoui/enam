@@ -89,6 +89,12 @@ class User extends BaseUser {
     private $sexe;
 
     /**
+    * @ORM\Column(name="situation_professionnelle", type="string", length=255, nullable=true)
+    */
+        private $situationProfessionnelle;
+
+
+    /**
      * @ORM\Column(type="boolean",name="internat", length=45, nullable=true)
      */
     private $internat;
@@ -215,6 +221,19 @@ class User extends BaseUser {
         $this->sexe = $sexe;
         return $this;
     }
+
+    public function getSituationProfessionnelle()
+    {
+        return $this->situationProfessionnelle;
+    }
+
+    public function setSituationProfessionnelle($situationProfessionnelle)
+    {
+        $this->situationProfessionnelle = $situationProfessionnelle;
+
+        return $this;
+    }
+
 
     function setRole($role) {
         $this->role = $role;

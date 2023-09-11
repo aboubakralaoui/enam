@@ -49,6 +49,17 @@ class UserType extends AbstractType
                 'placeholder' => 'Sélectionnez une nationalité',
                 'required' => true,
             ))
+            ->add('situationProfessionnelle', 'choice', array(
+                'choices' => [
+                    'Étudiant' => 'Étudiant',
+                    'Salarié' => 'Salarié',
+                    'Fonctionnaire' => 'Fonctionnaire',
+                    'Autre' => 'Autre',
+                ],
+                'placeholder' => 'Choisissez votre situation professionnelle',
+                'required' => true,
+                'label' => 'Situation Professionnelle',
+            ))
             ->add('address');
     }
 
