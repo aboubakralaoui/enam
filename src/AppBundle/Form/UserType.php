@@ -17,6 +17,7 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add('cin')
+            ->add('cne')
 //            ->add('nationality')
 //            ->add('nationality', 'entity', array(
 //                  'class' => 'AppBundle:Nationality',
