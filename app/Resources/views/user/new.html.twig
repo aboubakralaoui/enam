@@ -61,6 +61,10 @@ Le formulaire n’est pas valide
                         <label for="email">Lieu de naissance  <span style="color: red; font-size: 16px;">*</span> :</label>
                         {{ form_widget(form.placeBirth, { 'attr': {'class': 'required form-control error placeBirth'} }) }}
                     </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Nationalité  <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.nationality, { 'attr': {'class': 'required form-control error nationality'} }) }}
+                    </div>
                 </ul>
             </div><!-- end col-md-6 -->
 

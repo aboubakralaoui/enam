@@ -44,6 +44,11 @@ class UserType extends AbstractType
                 'multiple' => false,
                 'required' => true,
             ))
+            ->add('nationality', 'choice', array(
+                'choices' => $this->getNationalities(),
+                'placeholder' => 'Sélectionnez une nationalité',
+                'required' => true,
+            ))
             ->add('address');
     }
 
@@ -62,6 +67,25 @@ class UserType extends AbstractType
         return [
             'Masculin' => 'masculin',
             'Féminin' => 'féminin',
+        ];
+    }
+
+    private function getNationalities()
+    {
+        // Vous pouvez charger la liste complète des nationalités ici
+        // Par exemple, si vous avez une liste prédéfinie :
+        return [
+            'Marocaine' => 'Marocaine',
+            'Française' => 'Française',
+            'Congolaise' => 'Congolaise',
+            'Camrounaise' => 'Camrounaise',
+            'Espagnole' => 'Espagnole',
+            'Italienne' => 'Italienne',
+            'Brésilienne' => 'Brésilienne',
+            'Portugaise' => 'Portugaise',
+            'Tunisienne' => 'Tunisienne',
+            'Sénégalaise' => 'Sénégalaise',
+            // Ajoutez ici les options pour chaque nationalité que vous souhaitez inclure
         ];
     }
 

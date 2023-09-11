@@ -130,10 +130,15 @@ class User extends BaseUser {
      */
     private $applications;
 
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Nationality")
+//     * @ORM\OrderBy({"id" = "ASC"})
+//     * @ORM\JoinColumn(name="nationality_id", referencedColumnName="id", nullable=true)
+//     */
+//    private $nationality;
+
     /**
-     * @ORM\ManyToOne(targetEntity="Nationality")
-     * @ORM\OrderBy({"id" = "ASC"})
-     * @ORM\JoinColumn(name="nationality_id", referencedColumnName="id", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $nationality;
 
