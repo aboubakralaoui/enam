@@ -1,135 +1,151 @@
 {% extends 'profil.html.twig' %}
 
 {% block body %}
-<div id="middle-wizard" style="padding-top: 25px;padding-bottom: 0px;border-bottom: 1px solid #edecec;">
-    <h1>Mon cursus </h1>
-    {% block flash_messages %}
-        {% for type, messages in app.session.flashbag.all() %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }} alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    {{ message | raw }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    {% endblock %}
-{% if not form.vars.valid %}
-                    <div class="alert alert-danger alert-dismissible" role="alert">
+    <div id="middle-wizard" style="padding-top: 25px;padding-bottom: 0px;border-bottom: 1px solid #edecec;">
+        <h1>Mon cursus </h1>
+        {% block flash_messages %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-Le formulaire n’est pas valide
-                                       </div>
+                        {{ message | raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+        {% if not form.vars.valid %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                Le formulaire n’est pas valide
+            </div>
 
-{% endif %}
-    {% if remainingLevels|length > 0 %}
-        <div class="alert alert-danger" role="alert">
-            <i>Veuillez renseigner les notes depuis votre baccalauréat que vous soyez licencié ou détenteur d'un master ! </i>
-        </div>
-    {% endif %}
-    <div class="row">
-    {{ form_start(form, { 'attr': {'style':'padding-top:30px;'} }) }}
-        <div class="col-md-6 col-sm-6">
-            <ul class="data-list">
-                <div class="form-group form-group-custom">
-                    <label for="email">Année scolaire <span style="color: red; font-size: 16px;">*</span> :</label>
-                    {{ form_widget(form.yearGraduation, { 'attr': {'class': 'required form-control error firstname normal_select'} }) }}
-                    {{ form_errors(form.yearGraduation) }}
-                </div>
-                <div class="form-group form-group-custom">
-                    <label for="email">Spécialité/Option <span style="color: red; font-size: 16px;">*</span> :</label>
-                    {{ form_widget(form.specialty, { 'attr': {'class': 'required form-control error lastName'} }) }}
-                    {{ form_errors(form.specialty) }}
-                </div>
-            </ul>
-        </div><!-- end col-md-6 -->
-        <div class="col-md-6 col-sm-6">
-            <ul class="data-list">
-                <div class="form-group form-group-custom">
-                    <label for="email">Niveau <span style="color: red; font-size: 16px;">*</span> :</label>
-                    {{ form_widget(form.level, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
-                    {{ form_errors(form.level) }}
-                </div>
-                <div class="form-group form-group-custom">
-                    <label for="email">Etablisement <span style="color: red; font-size: 16px;">*</span> :</label>
-                    {{ form_widget(form.establishment, { 'attr': {'class': 'required form-control error email'} }) }}
-                    {{ form_errors(form.establishment) }}
-                </div>
-            </ul>
-        </div><!-- end col-md-6 -->
-        <div class="col-md-6 col-sm-6">
-            <ul class="data-list">
-                <div class="form-group form-group-custom">
-                    <label for="email">Moyenne <span style="color: red; font-size: 16px;">*</span> :</label>
-                    {{ form_widget(form.moyenne, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
-                    {{ form_errors(form.moyenne) }}
-                </div>
-                <div class="form-group form-group-custom">
-                    <label for="email">La ville <span style="color: red; font-size: 16px;">*</span> :</label>
-                    {{ form_widget(form.city, { 'attr': {'class': 'required form-control error email'} }) }}
-                    {{ form_errors(form.city) }}
-                </div>
+        {% endif %}
+        {% if remainingLevels|length > 0 %}
+            <div class="alert alert-danger" role="alert">
+                <i>Veuillez renseigner les notes depuis votre baccalauréat que vous soyez licencié ou détenteur d'un master ! </i>
+            </div>
+        {% endif %}
+        <div class="row">
+            {{ form_start(form, { 'attr': {'style':'padding-top:30px;'} }) }}
+            <div class="col-md-6 col-sm-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Année scolaire <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.yearGraduation, { 'attr': {'class': 'required form-control error firstname normal_select'} }) }}
+                        {{ form_errors(form.yearGraduation) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Spécialité/Option <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.specialty, { 'attr': {'class': 'required form-control error lastName'} }) }}
+                        {{ form_errors(form.specialty) }}
+                    </div>
+                </ul>
+            </div><!-- end col-md-6 -->
+            <div class="col-md-6 col-sm-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Niveau <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.level, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
+                        {{ form_errors(form.level) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Etablisement <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.establishment, { 'attr': {'class': 'required form-control error email'} }) }}
+                        {{ form_errors(form.establishment) }}
+                    </div>
+                </ul>
+            </div><!-- end col-md-6 -->
+            <div class="col-md-6 col-sm-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Moyenne <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.moyenne, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
+                        {{ form_errors(form.moyenne) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">La ville <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.city, { 'attr': {'class': 'required form-control error email'} }) }}
+                        {{ form_errors(form.city) }}
+                    </div>
 
-            </ul>
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <ul class="data-list">
-              <div class="form-group form-group-custom">
-                  <label for="email">Statut <span style="color: red; font-size: 16px;">*</span> :</label>
-                  {{ form_widget(form.status, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
-                  {{ form_errors(form.status) }}
-              </div>
+                </ul>
+            </div>
 
-        </ul>
-    </div>
-        <div class="col-md-12 col-sm-12">
+            <div class="col-md-6 col-sm-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Note Semestre 1 <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.noteS1, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
+                        {{ form_errors(form.noteS1) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Note Semestre 2 <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.noteS2, { 'attr': {'class': 'required form-control error email'} }) }}
+                        {{ form_errors(form.noteS2) }}
+                    </div>
+
+                </ul>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <ul class="data-list">
+                    <div class="form-group form-group-custom">
+                        <label for="email">Statut <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(form.status, { 'attr': {'class': 'required form-control error cin normal_select'} }) }}
+                        {{ form_errors(form.status) }}
+                    </div>
+
+                </ul>
+            </div>
+            <div class="col-md-12 col-sm-12">
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary pull-right add_training_btn" style="margin-top: 25px;margin-bottom:30px;">Enregistrer et ajouter une autre formation</button>
                 </div>
-        </div><!-- end col-md-6 -->
+            </div><!-- end col-md-6 -->
 
-    {{ form_end(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
-</div>
-<div id="middle-wizard" style="padding-top: 25px;">
-    <div class="row">
-        <ul class="surveys grid">
-            {% for training in trainings %}
-                <li class="survey-item">
-                    <div class="survey-head">
-                        <div style="margin-bottom:8px;">
+    <div id="middle-wizard" style="padding-top: 25px;">
+        <div class="row">
+            <ul class="surveys grid">
+                {% for training in trainings %}
+                    <li class="survey-item">
+                        <div class="survey-head">
+                            <div style="margin-bottom:8px;">
                             <span class="survey-country" style="display: inline-block;">
                                 {{ training.specialty }}
                             </span>
-                            <span class="survey-name grid-only">
+                                <span class="survey-name grid-only">
                                 {{ training.establishment }}
                             </span>
-                            <span class="survey-name">
+                                <span class="survey-name">
                                 {{ training.level }}
                             </span>
-                        </div>
-                        <span class="survey-else grid-only">
+                            </div>
+                            <span class="survey-else grid-only">
                             Moyenne: {{ training.moyenne }}
                         </span>
-                        <span class="survey-else2 grid-only">
+                            <span class="survey-else2 grid-only">
                             Année scolaire : {{ training.yearGraduation ~ "/" ~ (training.yearGraduation+1) }}
                         </span>
-                        <span class="survey-else2 grid-only">
+                            <span class="survey-else2 grid-only">
                             Ville : {{ training.city }}
                         </span>
-                        <span class="survey-else2 grid-only">
+                            <span class="survey-else2 grid-only">
                             Status de l'année :  {{ training.status }}
                         </span>
-                        <span class="pull-right hidden-xs" style="padding: 0;">
+                            <span class="pull-right hidden-xs" style="padding: 0;">
                             <a class="delete_training" href="{{ path('training_delete', { 'id': training.id }) }}">Supprimer</a>
                         </span>
-                        <div class="text-right hidden-sm hidden-md hidden-lg" style="padding: 0;width:100%">
-                            <a class="delete_training" href="{{ path('training_delete', { 'id': training.id }) }}">Supprimer</a>
+                            <div class="text-right hidden-sm hidden-md hidden-lg" style="padding: 0;width:100%">
+                                <a class="delete_training" href="{{ path('training_delete', { 'id': training.id }) }}">Supprimer</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-</div>
     <div id="bottom-wizard">
         <a type="button" href="{{ path('profile')}}"  id="backward" name="backward" class="backward"><span id="span-backward">Précédent</span></a>
         {% if remainingLevels|length == 0 %}

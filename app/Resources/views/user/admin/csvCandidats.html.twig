@@ -1,4 +1,17 @@
-id; Nom; Prénom; Téléphone; Email; Ville; Date d'inscription; Statut; Niveau
+id; Nom; Prénom; Téléphone; Email; Date de naissance; Ville; Date d'inscription; Statut; Niveau; Spécialité/Option A1; Moyenne A1 ;Note Semestre 1 A1; Note Semestre 2 A1 ; Spécialité/Option A2; Moyenne A2 ;Note Semestre 1 A2; Note Semestre 2 A2; Spécialité/Option A3; Moyenne A3;Note Semestre 1 A3; Note Semestre 2 A3
 {% for user in users %}
-{{ user.id }};{{ user.lastName }};{{ user.firstName }};{{ user.phoneNumber }};{{ user.email }};{{ user.placeBirth }};{{ user.createdAt|date('d/m/Y') }}; {{ user.statusCandidat() }}; {{ user.getTrainigToString }}
+    {% set training1 = '' %}
+    {% set training2 = '' %}
+    {% set training3 = '' %}
+    {% for training in user.trainings %}
+        {% if training.level == '1ère année post bac' %}
+            {% set training1 = training %}
+        {% elseif training.level == '2ème année post bac' %}
+            {% set training2 = training %}
+        {% elseif training.level == '3ème année post bac' %}
+            {% set training3 = training %}
+        {% endif %}
+    {% endfor %}
+    {{ user.id }};{{ user.lastName }};{{ user.firstName }};{{ user.phoneNumber }};{{ user.email }};{{ user.birthDate|date('d/m/Y') }};{{ user.placeBirth }};{{ user.createdAt|date('d/m/Y') }}; {{ user.statusCandidat() }}; {{ user.getTrainigToString }}; {{ training1.specialty }} ; {{ training1.moyenne }}; {{ training1.noteS1 }}; {{ training1.noteS2 }} ; {{ training2.specialty }} ; {{ training2.moyenne }}; {{ training2.noteS1 }}; {{ training2.noteS2 }}; {{ training3.specialty }} ; {{ training3.moyenne }}; {{ training3.noteS1 }}; {{ training3.noteS2 }}
 {% endfor %}
+

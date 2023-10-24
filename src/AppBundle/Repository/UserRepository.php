@@ -71,8 +71,8 @@ class UserRepository extends EntityRepository {
                 $qb->andWhere($qb->expr()->gt('SIZE(u.applications)', 0));
             }
             if($params['status'] == 2){
-              $qb->leftJoin('app.documents', 'dd');
-              $qb->andWhere('dd.documentType = 8');
+                $qb->leftJoin('app.documents', 'dd');
+                $qb->andWhere('dd.documentType = 8');
                 $qb->andWhere('app.paymentReceiptUploaded = 1 and (app.status is null or (app.status != 4 and app.status != -1))');
             }
             if($params['status'] == 3){
@@ -86,7 +86,7 @@ class UserRepository extends EntityRepository {
         }
         if($params['level'] != "" && $params['level'] != null) {
             if($params['level'] == 'master'){
-               $levels = TrainingType::OPTIONAL_LEVELS;
+                $levels = TrainingType::OPTIONAL_LEVELS;
             }else{
                 $levels = TrainingType::MANDATORY_LEVELS;
             }
@@ -95,10 +95,9 @@ class UserRepository extends EntityRepository {
         }
         $qb->andWhere('u.role = :role');
         $qb->setParameter('role', "student")
-        ->addOrderBy('u.createdAt', 'DESC')
-        ->distinct();
-        dump($qb->getQuery()->getSQL());
-        dump($qb->getQuery()->getParameters());
+            ->addOrderBy('u.createdAt', 'DESC')
+            ->distinct();
+
         return $qb->getQuery()->getResult();
     }
 
@@ -123,7 +122,7 @@ class UserRepository extends EntityRepository {
         ));
         $qb->andWhere('us.role = :role');
         $qb->setParameter('role', "student")
-        ->distinct();
+            ->distinct();
         return $qb->getDQL();
     }
 

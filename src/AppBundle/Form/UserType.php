@@ -17,66 +17,67 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add('cin')
-            ->add('cne')
-//            ->add('nationality')
-//            ->add('nationality', 'entity', array(
-//                  'class' => 'AppBundle:Nationality',
-//                'query_builder' => function(NationalityRepository $er) {
-//                    return $er->createQueryBuilder('n')
-//                        ->orderBy('n.id', 'ASC');
-//                },
-//            ))
+            ->add('nationality', 'entity', array(
+                  'class' => 'AppBundle:Nationality',
+                'query_builder' => function(NationalityRepository $er) {
+                    return $er->createQueryBuilder('n')
+                        ->orderBy('n.id', 'ASC');
+                },
+            ))
             ->add('firstName')
             ->add('lastName')
             ->add('birthDate', 'datetime', array(
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
             ))
-//            ->add('father',null, array(
-  //               "required" => true
-    //        ))
-      //      ->add('mother',null, array(
-        //         "required" => true
-          ////  ))
             ->add('placeBirth')
             ->add('phoneNumber')
+            ->add('address')
             ->add('sexe', 'choice', array(
                 'choices' => $this->getSexe(),
-                'multiple' => false,
-                'required' => true,
-            ))
-            ->add('nationality', 'choice', array(
-                'choices' => $this->getNationalities(),
-                'placeholder' => 'Sélectionnez une nationalité',
-                'required' => true,
+                'expanded' => false,
+                'multiple' => false
             ))
             ->add('situationProfessionnelle', 'choice', array(
-                'choices' => [
-                    'Étudiant' => 'Étudiant',
-                    'Salarié' => 'Salarié',
-                    'Fonctionnaire' => 'Fonctionnaire',
-                    'Autre' => 'Autre',
-                ],
-                'placeholder' => 'Choisissez votre situation professionnelle',
-                'required' => true,
-                'label' => 'Situation Professionnelle',
+                'choices' => $this->getSituationProfessionnelles(),
+                'expanded' => false,
+                'multiple' => false
             ))
-            ->add('baccalaureatType', 'choice', array(
-                'choices' => [
-                    'Sciences Agronomiques' => 'Sciences Agronomiques',
-                    'Sciences Mathématiques' => 'Sciences Mathématiques',
-                    'Sciences Physiques et Chimiques' => 'Sciences Physiques et Chimiques',
-                    'Sciences de la Vie et de la Terre' => 'Sciences de la Vie et de la Terre',
-                    'Sciences et Technologies Electriques' => 'Sciences et Technologies Electriques',
-                    'Sciences et Technologies Mécaniques' => 'Sciences et Technologies Mécaniques',
-                    'Autre' => 'Autre',
-                ],
-                'placeholder' => 'Choisissez le type de baccalauréat',
-                'required' => true,
-                'label' => 'Baccalauréat',
+            ->add('typeBaccalaureat', 'choice', array(
+                'choices' => $this->getTypeBaccalaureats(),
+                'expanded' => false,
+                'multiple' => false
             ))
-            ->add('baccalaureatAverage')
-            ->add('address');
+            ->add('codeNational')
+            ->add('moyenneBaccalaureat')
+            ->add('mentionBaccalaureat', 'choice', array(
+                'choices' => $this->getMentionBaccalaureats(),
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('anneeInscriptionSecondaire', 'choice', array(
+                'choices' => $this->getAnnees(),
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('anneeObtentionDiplome', 'choice', array(
+                'choices' => $this->getAnnees(),
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('typeDiplome', 'choice', array(
+                'choices' => array("Bac + 5" => "Bac + 5" ,
+                    "Licence" => "Licence"),
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('mentionDiplome', 'choice', array(
+                'choices' => $this->getMentionBaccalaureats(),
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('intituleFiliere')
+        ;
     }
 
     /**
@@ -88,34 +89,6 @@ class UserType extends AbstractType
             'data_class' => 'AppBundle\Entity\User'
         ));
     }
-
-    public function getSexe()
-    {
-        return [
-            'Masculin' => 'masculin',
-            'Féminin' => 'féminin',
-        ];
-    }
-
-    private function getNationalities()
-    {
-        // Vous pouvez charger la liste complète des nationalités ici
-        // Par exemple, si vous avez une liste prédéfinie :
-        return [
-            'Marocaine' => 'Marocaine',
-            'Française' => 'Française',
-            'Congolaise' => 'Congolaise',
-            'Camrounaise' => 'Camrounaise',
-            'Espagnole' => 'Espagnole',
-            'Italienne' => 'Italienne',
-            'Brésilienne' => 'Brésilienne',
-            'Portugaise' => 'Portugaise',
-            'Tunisienne' => 'Tunisienne',
-            'Sénégalaise' => 'Sénégalaise',
-            // Ajoutez ici les options pour chaque nationalité que vous souhaitez inclure
-        ];
-    }
-
 
     /**
      * {@inheritdoc}
@@ -130,5 +103,50 @@ class UserType extends AbstractType
         return 'appbundle_user_type';
     }
 
+    public function getSexe() {
+        return array(
+            "Homme" => "Homme" ,
+            "Femme" => "Femme"
+        );
+    }
 
+    public function getSituationProfessionnelles() {
+        return array(
+            "Étudiant" => "Étudiant" ,
+            "Fonctionnaire" => "Fonctionnaire",
+            "Salarié" => "Salarié",
+            "Autre" => "Autre"
+        );
+    }
+
+    public function getTypeBaccalaureats() {
+        return array(
+            "Sciences Agronomiques" => "Sciences Agronomiques" ,
+            "Sciences Mathématiques" => "Sciences Mathématiques",
+            "Sciences Physiques et Chimiques" => "Sciences Physiques et Chimiques",
+            "Sciences de la Vie et de la Terre" => "Sciences de la Vie et de la Terre",
+            "Sciences et Technologies Electriques" => "Sciences et Technologies Electriques",
+            "Sciences et Technologies Mécaniques" => "Sciences et Technologies Mécaniques",
+            "Autre" => "Autre"
+        );
+    }
+
+    public function getMentionBaccalaureats() {
+        return array(
+            "Très Bien" => "Très Bien" ,
+            "Bien" => "Bien",
+            "Assez Bien" => "Assez Bien",
+            "Passable" => "Passable"
+        );
+    }
+
+    public function getAnnees() {
+        $annees = array();
+
+        for ($annee = 1980; $annee <2024; $annee++) {
+            $annees[$annee] =  $annee;
+        }
+
+        return $annees;
+    }
 }

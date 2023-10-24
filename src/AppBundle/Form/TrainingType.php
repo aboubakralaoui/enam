@@ -9,7 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TrainingType extends AbstractType
 {
     const MANDATORY_LEVELS = array(
-        "baccalauréat" => "baccalauréat",
         "1ère année post bac" => "1ère année post bac" ,
         "2ème année post bac" => "2ème année post bac" ,
         "3ème année post bac" => "3ème année post bac",
@@ -43,16 +42,18 @@ class TrainingType extends AbstractType
                 'data' => $this->selectedYear
             ))
             ->add('specialty')
-           ->add('city')
+            ->add('city')
             ->add('establishment')
             ->add('level', 'choice', array(
                 'choices' => $this->getLevels(),
                 'expanded' => false,
                 'multiple' => false
-                ))
-              ->add('moyenne')
-              ->add('status', 'choice', array(
-               'choices' => array(
+            ))
+            ->add('moyenne')
+            ->add('noteS1')
+            ->add('noteS2')
+            ->add('status', 'choice', array(
+                'choices' => array(
                     '' => "",
                     'Validée en session ordinaire' => "Validée en session ordinaire",
                     'Validée après rattrapage' => "Validée après rattrapage"
@@ -83,7 +84,7 @@ class TrainingType extends AbstractType
 
     public function getYears(){
         $years = array();
-        for( $i=1980; $i< date("Y") ; $i++ )
+        for( $i=1980; $i<= date("Y") ; $i++ )
         {
             if(!in_array($i,$this->years)){
                 $years[$i] = $i . "/" . ($i + 1);
@@ -118,7 +119,7 @@ class TrainingType extends AbstractType
         //$this->newLevelsArray =array();
 
         if (count($this->levels) == 0 ) {
-          return $levelsArray;
+            return $levelsArray;
         }
 
         foreach ($this->levels as &$value)

@@ -45,9 +45,9 @@ class TrainingController extends Controller
         $years = array();
         $levels = array();
         foreach ($user->getTrainings() as $value){
-                if(!in_array($value->getYearGraduation(),$years)){
-                    array_push($years,$value->getYearGraduation());
-                }
+            if(!in_array($value->getYearGraduation(),$years)){
+                array_push($years,$value->getYearGraduation());
+            }
             if(!in_array($value->getLevel(),$levels)){
                 array_push($levels,$value->getLevel());
             }
@@ -68,7 +68,7 @@ class TrainingController extends Controller
             );
             return $this->redirectToRoute('training_new', array('id' => $training->getId()));
         }
-        dump(array_diff(array_values(TrainingType::MANDATORY_LEVELS), $levels));
+	/*dump(array_diff(array_values(TrainingType::MANDATORY_LEVELS), $levels));*/
         return $this->render('training/new.html.twig', array(
             'training' => $training,
             'form' => $form->createView(),
@@ -149,6 +149,6 @@ class TrainingController extends Controller
             ->setAction($this->generateUrl('training_delete', array('id' => $training->getId())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }

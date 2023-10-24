@@ -65,6 +65,18 @@ class Training {
     protected $status;
 
     /**
+     * @ORM\Column(type="string", name="note_s1", nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     */
+    protected $noteS1;
+
+    /**
+     * @ORM\Column(type="string", name="note_s2", nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     */
+    protected $noteS2;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="trainings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank(message="Ce champ est obligatoire")
@@ -208,6 +220,38 @@ class Training {
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNoteS1()
+    {
+        return $this->noteS1;
+    }
+
+    /**
+     * @param mixed $noteS1
+     */
+    public function setNoteS1($noteS1)
+    {
+        $this->noteS1 = $noteS1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNoteS2()
+    {
+        return $this->noteS2;
+    }
+
+    /**
+     * @param mixed $noteS2
+     */
+    public function setNoteS2($noteS2)
+    {
+        $this->noteS2 = $noteS2;
     }
 
     function __toString()

@@ -45,20 +45,30 @@ Le formulaire n’est pas valide
                         {{ form_widget(edit_form.cin, { 'attr': {'class': 'required form-control error cin'} }) }}
                         {{ form_errors(edit_form.cin) }}
                     </div>
+
                     <div class="form-group form-group-custom">
-                        <label for="email">Code National de l'Etudiant (CNE) <span style="color: red; font-size: 16px;">*</span> :</label>
-                        {{ form_widget(edit_form.cne, { 'attr': {'class': 'required form-control error cne'} }) }}
-                        {{ form_errors(edit_form.cne) }}
+                        <label for="Nationalité">Nationalité <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.nationality, { 'attr': {'class': 'required form-control error Nationalité'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Sexe <span style="color: red; font-size: 16px;">*</span> :</label>
+                        <label for="sexe">Sexe :</label>
                         {{ form_widget(edit_form.sexe, { 'attr': {'class': 'required form-control error sexe'} }) }}
-                        {{ form_errors(edit_form.sexe) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Baccalauréat <span style="color: red; font-size: 16px;">*</span> :</label>
-                        {{ form_widget(edit_form.baccalaureatType, { 'attr': {'class': 'required form-control error baccalaureatType'} }) }}
-                        {{ form_errors(edit_form.baccalaureatType) }}
+                        <label for="codeNational">Code national de l'étudiant  <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.codeNational, { 'attr': {'class': 'required form-control error codeNational'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="situationProfessionnelle">Situation professionnelle <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.situationProfessionnelle, { 'attr': {'class': 'required form-control error situationProfessionnelle'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="mentionDiplome">Mention du diplôme  <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.mentionDiplome, { 'attr': {'class': 'required form-control error mentionDiplome'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="intituleFiliere">Intitulé de filière / Option du diplôme (Post-Bac) <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.intituleFiliere, { 'attr': {'class': 'required form-control error intituleFiliere'} }) }}
                     </div>
                 </ul>
             </div><!-- end col-md-6 -->
@@ -69,35 +79,61 @@ Le formulaire n’est pas valide
                         {{ form_widget(edit_form.phoneNumber, { 'attr': {'class': 'required form-control error phoneNumber'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Adresse <span style="color: red; font-size: 16px;">*</span> :</label>
+                        <label for="email">Adresse :</label>
                         {{ form_widget(edit_form.address, { 'attr': {'class': 'required form-control error address'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Date de naissance <span style="color: red; font-size: 16px;">*</span> :</label>
+                        <label for="email">Date de naissance (Jour/Mois/Année) <span style="color: red; font-size: 16px;">*</span> :</label>
                         {{ form_widget(edit_form.birthDate, { 'attr': {'class': 'required form-control error birthDate'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Lieu de naissance <span style="color: red; font-size: 16px;">*</span> :</label>
+                        <label for="email">Lieu de naissance  <span style="color: red; font-size: 16px;">*</span> :</label>
                         {{ form_widget(edit_form.placeBirth, { 'attr': {'class': 'required form-control error placeBirth'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Nationalité <span style="color: red; font-size: 16px;">*</span> :</label>
-                        {{ form_widget(edit_form.nationality, { 'attr': {'class': 'required form-control error nationality'} }) }}
+                        <label for="mentionBaccalaureat">Mention du Baccalauréat  <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.mentionBaccalaureat, { 'attr': {'class': 'required form-control error mentionBaccalaureat'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Situation Professionnelle <span style="color: red; font-size: 16px;">*</span> :</label>
-                        {{ form_widget(edit_form.situationProfessionnelle, { 'attr': {'class': 'required form-control error situationProfessionnelle'} }) }}
+                        <label for="typeBaccalaureat">Type du Baccalauréat <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.typeBaccalaureat, { 'attr': {'class': 'required form-control error typeBaccalaureat'} }) }}
                     </div>
                     <div class="form-group form-group-custom">
-                        <label for="email">Moyenne de Baccalauréat <span style="color: red; font-size: 16px;">*</span> :</label>
-                        {{ form_widget(edit_form.baccalaureatAverage, { 'attr': {'class': 'required form-control error baccalaureatAverage'} }) }}
+                        <label for="moyenneBaccalaureat">Moyenne générale du  Baccalauréat :</label>
+                        {{ form_widget(edit_form.moyenneBaccalaureat, { 'attr': {'class': 'required form-control error moyenneBaccalaureat'} }) }}
                     </div>
-                    {#<div class="form-group">
-                        <input type="submit" class="btn btn-primary pull-right" value="Enregistrer"/>
-                    </div>#}
+                    <div class="form-group form-group-custom">
+                        <label for="anneeInscriptionSecondaire">Année de la première inscription aux études supérieures <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.anneeInscriptionSecondaire, { 'attr': {'class': 'required form-control error anneeInscriptionSecondaire'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="anneeObtentionDiplome">Année d'obtention du diplôme <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.anneeObtentionDiplome, { 'attr': {'class': 'required form-control error anneeObtentionDiplome'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="typeDiplome">Type de diplôme que vous avez (Post-Bac)  :</label>
+                        {{ form_widget(edit_form.typeDiplome, { 'attr': {'class': 'required form-control error typeDiplome'} }) }}
+                    </div>
                 </ul>
             </div><!-- end col-md-6 -->
         </div>
+
+       
+      
+     
+    
+   
+  
+ 
+
+
+
+
+
+
+
+
+
 
         </div>
     </div>

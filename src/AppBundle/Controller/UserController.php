@@ -506,7 +506,7 @@ class UserController extends Controller
                                 $uploadedAvatarFile = $f;
                                 $extension = $uploadedAvatarFile->guessExtension();
                                 if (in_array($extension, $acceptedExtensions)) {
-                                    if ($uploadedAvatarFile->getClientSize() < 2000000) {
+                                    if ($uploadedAvatarFile->getClientSize() < 60000000) {
                                         $new_file_name = $key . '_' . $today . '_' . time() . '_' . uniqid() . '_' . $rand . '.' . $extension;
                                         $documentInstance = $em->getRepository('AppBundle:Document')->findOneBy(array('application' => $application, 'user' => $user, 'documentType' => $em->getRepository('AppBundle:DocumentType')->findOneByCode($key)));
                                         if ($documentInstance != null) {
@@ -553,7 +553,7 @@ class UserController extends Controller
                         //dump($file);
                         $extension = $uploadedAvatarFile->guessExtension();
                         if (in_array($extension, $acceptedExtensions)) {
-                            if ($file->getClientSize() < 2000000) {
+                            if ($file->getClientSize() < 60000000) {
                                 $new_file_name = $key . '_' . $today . '_' . time() . '_' . uniqid() . '_' . $rand . '.' . $extension;
                                 $documentInstance = $em->getRepository('AppBundle:Document')->findOneBy(array('application' => $application, 'user' => $user, 'documentType' => $em->getRepository('AppBundle:DocumentType')->findOneByCode($key)));
                                 if ($documentInstance != null) {
@@ -697,7 +697,7 @@ class UserController extends Controller
                     $uploadedAvatarFile = $request->files->get($key);
                     $extension = $uploadedAvatarFile->guessExtension();
                     if (in_array($extension, $acceptedExtensions)) {
-                        if ($file->getClientSize() < 2000000) {
+                        if ($file->getClientSize() < 60000000) {
                             $new_file_name = $key . '_' . $today . '_' . time() . '_' . uniqid() . '_' . $rand . '.' . $extension;
                             $documentInstance = $em->getRepository('AppBundle:Document')->findOneBy(array('application' => $application, 'user' => $user, 'documentType' => $em->getRepository('AppBundle:DocumentType')->findOneByCode($key)));
                             if ($documentInstance != null) {
@@ -949,7 +949,7 @@ class UserController extends Controller
                                 $uploadedAvatarFile = $f;
                                 $extension = $uploadedAvatarFile->guessExtension();
                                 if (in_array($extension, $acceptedExtensions)) {
-                                    if ($uploadedAvatarFile->getClientSize() < 2000000) {
+                                    if ($uploadedAvatarFile->getClientSize() < 60000000) {
                                         $new_file_name = $key . '_' . $today . '_' . time() . '_' . uniqid() . '_' . $rand . '.' . $extension;
                                         $documentInstance = $em->getRepository('AppBundle:Document')->findOneBy(array('application' => $application, 'user' => $user, 'documentType' => $em->getRepository('AppBundle:DocumentType')->findOneByCode($key)));
                                         if ($documentInstance != null) {
@@ -996,7 +996,7 @@ class UserController extends Controller
                         //dump($file);
                         $extension = $uploadedAvatarFile->guessExtension();
                         if (in_array($extension, $acceptedExtensions)) {
-                            if ($file->getClientSize() < 2000000) {
+                            if ($file->getClientSize() < 60000000) {
                                 $new_file_name = $key . '_' . $today . '_' . time() . '_' . uniqid() . '_' . $rand . '.' . $extension;
                                 $documentInstance = $em->getRepository('AppBundle:Document')->findOneBy(array('application' => $application, 'user' => $user, 'documentType' => $em->getRepository('AppBundle:DocumentType')->findOneByCode($key)));
                                 if ($documentInstance != null) {

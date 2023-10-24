@@ -84,27 +84,6 @@ class User extends BaseUser {
     private $cne;
 
     /**
-     * @ORM\Column(type="string", length=10)
-     */
-    private $sexe;
-
-    /**
-    * @ORM\Column(name="situation_professionnelle", type="string", length=255, nullable=true)
-    */
-        private $situationProfessionnelle;
-
-    /**
-    * @ORM\Column(name="baccalaureat_type", type="string", length=255, nullable=true)
-    */
-        private $baccalaureatType;
-
-    /**
-     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
-     */
-    private $baccalaureatAverage;
-
-
-    /**
      * @ORM\Column(type="boolean",name="internat", length=45, nullable=true)
      */
     private $internat;
@@ -146,15 +125,10 @@ class User extends BaseUser {
      */
     private $applications;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Nationality")
-//     * @ORM\OrderBy({"id" = "ASC"})
-//     * @ORM\JoinColumn(name="nationality_id", referencedColumnName="id", nullable=true)
-//     */
-//    private $nationality;
-
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Nationality")
+     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\JoinColumn(name="nationality_id", referencedColumnName="id", nullable=true)
      */
     private $nationality;
 
@@ -201,6 +175,62 @@ class User extends BaseUser {
     private $onlinePayments;
 
 
+    /**
+     * @ORM\Column(type="string",name="sexe", length=255, nullable=true)
+     */
+    private $sexe;
+
+    /**
+     * @ORM\Column(type="string",name="code_national", length=255, nullable=true)
+     */
+    private $codeNational;
+
+
+    /**
+     * @ORM\Column(type="string",name="situation_professionnelle", length=255, nullable=true)
+     */
+    private $situationProfessionnelle;
+
+    /**
+     * @ORM\Column(type="string",name="type_baccalaureat", length=255, nullable=true)
+     */
+    private $typeBaccalaureat;
+
+    /**
+    * @ORM\Column(type="string",name="moyenne_baccalaureat", length=255, nullable=true)
+    */
+    private $moyenneBaccalaureat;
+
+    /**
+     * @ORM\Column(type="string",name="mention_baccalaureat", length=255, nullable=true)
+     */
+    private $mentionBaccalaureat;
+
+    /**
+     * @ORM\Column(type="string",name="annee_inscription_secondaire", length=255, nullable=true)
+     */
+    private $anneeInscriptionSecondaire;
+
+    /**
+     * @ORM\Column(type="string",name="annee_obtention_diplome", length=255, nullable=true)
+     */
+    private $anneeObtentionDiplome;
+
+    /**
+     * @ORM\Column(type="string",name="type_diplome", length=255, nullable=true)
+     */
+    private $typeDiplome;
+
+    /**
+     * @ORM\Column(type="string",name="mention_diplome", length=255, nullable=true)
+     */
+    private $mentionDiplome;
+
+    /**
+     * @ORM\Column(type="string",name="intitule_filiere", length=255, nullable=true)
+     */
+    private $intituleFiliere;
+
     public function __construct() {
         parent::__construct();
         $this->trainings = new \Doctrine\Common\Collections\ArrayCollection();
@@ -220,50 +250,6 @@ class User extends BaseUser {
     function getRole() {
         return $this->role;
     }
-
-    public function getSexe()
-    {
-        return $this->sexe;
-    }
-
-    public function setSexe($sexe)
-    {
-        $this->sexe = $sexe;
-        return $this;
-    }
-
-    public function getSituationProfessionnelle()
-    {
-        return $this->situationProfessionnelle;
-    }
-
-    public function setSituationProfessionnelle($situationProfessionnelle)
-    {
-        $this->situationProfessionnelle = $situationProfessionnelle;
-
-        return $this;
-    }
-
-    public function getBaccalaureatType()
-    {
-        return $this->baccalaureatType;
-    }
-
-    public function setBaccalaureatType($baccalaureatType)
-    {
-        $this->baccalaureatType = $baccalaureatType;
-    }
-
-    public function getBaccalaureatAverage()
-    {
-        return $this->baccalaureatAverage;
-    }
-
-    public function setBaccalaureatAverage($baccalaureatAverage)
-    {
-        $this->baccalaureatAverage = $baccalaureatAverage;
-    }
-
 
     function setRole($role) {
         $this->role = $role;
@@ -324,7 +310,6 @@ class User extends BaseUser {
     {
         $this->mother = $mother;
     }
-
 
 
     /**
@@ -623,5 +608,183 @@ class User extends BaseUser {
     public function getOnlinePayments()
     {
         return $this->onlinePayments;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    /**
+     * @param mixed $sexe
+     */
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCodeNational()
+    {
+        return $this->codeNational;
+    }
+
+    /**
+     * @param mixed $codeNational
+     */
+    public function setCodeNational($codeNational)
+    {
+        $this->codeNational = $codeNational;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSituationProfessionnelle()
+    {
+        return $this->situationProfessionnelle;
+    }
+
+    /**
+     * @param mixed $situationProfessionnelle
+     */
+    public function setSituationProfessionnelle($situationProfessionnelle)
+    {
+        $this->situationProfessionnelle = $situationProfessionnelle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeBaccalaureat()
+    {
+        return $this->typeBaccalaureat;
+    }
+
+    /**
+     * @param mixed $typeBaccalaureat
+     */
+    public function setTypeBaccalaureat($typeBaccalaureat)
+    {
+        $this->typeBaccalaureat = $typeBaccalaureat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMoyenneBaccalaureat()
+    {
+        return $this->moyenneBaccalaureat;
+    }
+
+    /**
+     * @param mixed $moyenneBaccalaureat
+     */
+    public function setMoyenneBaccalaureat($moyenneBaccalaureat)
+    {
+        $this->moyenneBaccalaureat = $moyenneBaccalaureat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMentionBaccalaureat()
+    {
+        return $this->mentionBaccalaureat;
+    }
+
+    /**
+     * @param mixed $mentionBaccalaureat
+     */
+    public function setMentionBaccalaureat($mentionBaccalaureat)
+    {
+        $this->mentionBaccalaureat = $mentionBaccalaureat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAnneeInscriptionSecondaire()
+    {
+        return $this->anneeInscriptionSecondaire;
+    }
+
+    /**
+     * @param mixed $anneeInscriptionSecondaire
+     */
+    public function setAnneeInscriptionSecondaire($anneeInscriptionSecondaire)
+    {
+        $this->anneeInscriptionSecondaire = $anneeInscriptionSecondaire;
+    }
+
+    /**
+ * @return mixed
+ */
+    public function getAnneeObtentionDiplome()
+    {
+        return $this->anneeObtentionDiplome;
+    }
+
+    /**
+     * @param mixed $anneeObtentionDiplome
+     */
+    public function setAnneeObtentionDiplome($anneeObtentionDiplome)
+    {
+        $this->anneeObtentionDiplome = $anneeObtentionDiplome;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeDiplome()
+    {
+        return $this->typeDiplome;
+    }
+
+    /**
+     * @param mixed $typeDiplome
+     */
+    public function setTypeDiplome($typeDiplome)
+    {
+        $this->typeDiplome = $typeDiplome;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMentionDiplome()
+    {
+        return $this->mentionDiplome;
+    }
+
+    /**
+     * @param mixed $typeDiplome
+     */
+    public function setMentionDiplome($mentionDiplome)
+    {
+        $this->mentionDiplome = $mentionDiplome;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIntituleFiliere()
+    {
+        return $this->intituleFiliere;
+    }
+
+    /**
+     * @param mixed $intituleFiliere
+     */
+    public function setIntituleFiliere($intituleFiliere)
+    {
+        $this->intituleFiliere = $intituleFiliere;
     }
 }

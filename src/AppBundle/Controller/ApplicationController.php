@@ -180,13 +180,13 @@ class ApplicationController extends Controller
         $editForm = $this->createForm('AppBundle\Form\CandidateAdminType', $user);
         $editForm->handleRequest($request);
         if ($request->isMethod('post')) {
-          if ($editForm->isSubmitted() && $editForm->isValid()) {
-              $this->getDoctrine()->getManager()->flush();
-              $this->addFlash(
-                  'notice',
-                  'La modification a bien été éfectuée'
-              );
-          }
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                $this->addFlash(
+                    'notice',
+                    'La modification a bien été éfectuée'
+                );
+            }
         }
 
         return $this->render('application/candidate.html.twig', array(
