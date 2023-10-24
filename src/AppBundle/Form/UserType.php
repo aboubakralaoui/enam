@@ -61,6 +61,21 @@ class UserType extends AbstractType
                 'required' => true,
                 'label' => 'Situation Professionnelle',
             ))
+            ->add('baccalaureatType', 'choice', array(
+                'choices' => [
+                    'Sciences Agronomiques' => 'Sciences Agronomiques',
+                    'Sciences Mathématiques' => 'Sciences Mathématiques',
+                    'Sciences Physiques et Chimiques' => 'Sciences Physiques et Chimiques',
+                    'Sciences de la Vie et de la Terre' => 'Sciences de la Vie et de la Terre',
+                    'Sciences et Technologies Electriques' => 'Sciences et Technologies Electriques',
+                    'Sciences et Technologies Mécaniques' => 'Sciences et Technologies Mécaniques',
+                    'Autre' => 'Autre',
+                ],
+                'placeholder' => 'Choisissez le type de baccalauréat',
+                'required' => true,
+                'label' => 'Baccalauréat',
+            ))
+            ->add('baccalaureatAverage')
             ->add('address');
     }
 

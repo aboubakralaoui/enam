@@ -54,9 +54,8 @@ class TrainingType extends AbstractType
               ->add('status', 'choice', array(
                'choices' => array(
                     '' => "",
-                    'En cours' => "En cours",
-                    'Réussite' => "Réussite",
-                    'Echec' => "Echec"
+                    'Validée en session ordinaire' => "Validée en session ordinaire",
+                    'Validée après rattrapage' => "Validée après rattrapage"
                 )
             ));
     }

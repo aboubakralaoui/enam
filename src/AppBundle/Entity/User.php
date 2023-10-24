@@ -93,6 +93,16 @@ class User extends BaseUser {
     */
         private $situationProfessionnelle;
 
+    /**
+    * @ORM\Column(name="baccalaureat_type", type="string", length=255, nullable=true)
+    */
+        private $baccalaureatType;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     */
+    private $baccalaureatAverage;
+
 
     /**
      * @ORM\Column(type="boolean",name="internat", length=45, nullable=true)
@@ -232,6 +242,26 @@ class User extends BaseUser {
         $this->situationProfessionnelle = $situationProfessionnelle;
 
         return $this;
+    }
+
+    public function getBaccalaureatType()
+    {
+        return $this->baccalaureatType;
+    }
+
+    public function setBaccalaureatType($baccalaureatType)
+    {
+        $this->baccalaureatType = $baccalaureatType;
+    }
+
+    public function getBaccalaureatAverage()
+    {
+        return $this->baccalaureatAverage;
+    }
+
+    public function setBaccalaureatAverage($baccalaureatAverage)
+    {
+        $this->baccalaureatAverage = $baccalaureatAverage;
     }
 
 

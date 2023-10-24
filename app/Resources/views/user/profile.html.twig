@@ -55,6 +55,11 @@ Le formulaire n’est pas valide
                         {{ form_widget(edit_form.sexe, { 'attr': {'class': 'required form-control error sexe'} }) }}
                         {{ form_errors(edit_form.sexe) }}
                     </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Baccalauréat <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.baccalaureatType, { 'attr': {'class': 'required form-control error baccalaureatType'} }) }}
+                        {{ form_errors(edit_form.baccalaureatType) }}
+                    </div>
                 </ul>
             </div><!-- end col-md-6 -->
             <div class="col-md-6">
@@ -82,6 +87,10 @@ Le formulaire n’est pas valide
                     <div class="form-group form-group-custom">
                         <label for="email">Situation Professionnelle <span style="color: red; font-size: 16px;">*</span> :</label>
                         {{ form_widget(edit_form.situationProfessionnelle, { 'attr': {'class': 'required form-control error situationProfessionnelle'} }) }}
+                    </div>
+                    <div class="form-group form-group-custom">
+                        <label for="email">Moyenne de Baccalauréat <span style="color: red; font-size: 16px;">*</span> :</label>
+                        {{ form_widget(edit_form.baccalaureatAverage, { 'attr': {'class': 'required form-control error baccalaureatAverage'} }) }}
                     </div>
                     {#<div class="form-group">
                         <input type="submit" class="btn btn-primary pull-right" value="Enregistrer"/>
